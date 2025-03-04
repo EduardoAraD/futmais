@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, View } from 'react-native'
+import { SafeAreaView, View } from 'react-native'
 
 import { LineBackground } from '../LineBackground';
 
@@ -9,15 +9,28 @@ interface Props {
   children: React.ReactNode
 }
 
-export function Background({ color, children }: Props ) {
+function Background({ color, children }: Props ) {
   return (
     <View style={[styles.container, { backgroundColor: color }]}>
       <LineBackground color={color} />
       <SafeAreaView style={styles.safe}>
-        <View style={{flex: 1, padding: 30 }}>
-          {children}
-        </View>
+        {children}
       </SafeAreaView>
     </View>
   )
 }
+
+interface PaddingProps {
+  children: React.ReactNode
+}
+
+function Padding({ children }: PaddingProps) {
+  return (
+    <View style={{flex: 1, padding: 20 }}>
+      {children}
+    </View>
+  )
+}
+
+Background.Padding = Padding
+export { Background }

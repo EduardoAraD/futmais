@@ -1,26 +1,26 @@
 import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font'
 import {
   Rajdhani_400Regular,
+  Rajdhani_500Medium,
+  Rajdhani_600SemiBold,
   Rajdhani_700Bold
 } from '@expo-google-fonts/rajdhani'
-import {
-  Roboto_400Regular,
-  Roboto_500Medium,
-  Roboto_700Bold,
-} from '@expo-google-fonts/roboto'
-import { Init } from './src/screens/Init';
+import { Oxanium_700Bold, Oxanium_500Medium } from '@expo-google-fonts/oxanium'
+import { Routes } from './src/routes';
+import theme from './src/theme';
 
 export default function App() {
   const [loaded, error] = useFonts({
     Rajdhani_400Regular,
+    Rajdhani_500Medium,
+    Rajdhani_600SemiBold,
     Rajdhani_700Bold,
-    Roboto_400Regular,
-    Roboto_500Medium,
-    Roboto_700Bold,
+    Oxanium_500Medium,
+    Oxanium_700Bold,
   })
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-      <Init />
+      <Routes />
     </View>
   );
 }
@@ -44,8 +44,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: theme.colors.darkPrimary,
   },
 });

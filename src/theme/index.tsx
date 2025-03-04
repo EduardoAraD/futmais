@@ -13,16 +13,18 @@ export default {
     white: "#FDFDFD",
     primary: "#F44336",
     darkPrimary: "#D32F2F",
+    yellow: '#FFE135',
   },
   fonts: {
     rajdhani: {
       regular: 'Rajdhani_400Regular',
+      medium: 'Rajdhani_500Medium',
+      semibold: 'Rajdhani_600SemiBold',
       bold: 'Rajdhani_700Bold',
     },
-    roboto: {
-      regular: 'Roboto_400Regular',
-      medium: 'Roboto_500Medium',
-      bold: 'Roboto_700Bold',
-    },
+    oxanium: {
+      medium: 'Oxanium_500Medium',
+      bold: 'Oxanium_700Bold',
+    }
   },
 }
