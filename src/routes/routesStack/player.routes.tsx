@@ -5,6 +5,7 @@ import {
 
 import { DetailsPlayer } from '../../screens/DetailsPlayer'
 import { Players } from '../../screens/Players'
+import { CreatePlayer } from '../../screens/CreatePlayer'
 
 type PlayerRoutesType = {
   players: undefined
@@ -22,6 +23,7 @@ export function PlayerRoutes() {
     <Navigator screenOptions={{ headerShown: false }}>
       <Screen name="players" component={Players} />
       <Screen name="detailsPlayer" component={DetailsPlayer} />
+      <Screen name="createPlayer" component={CreatePlayer} />
     </Navigator>
   )
 }

@@ -19,7 +19,7 @@ export function LineStats({ name, value, star = -1 }: Props) {
           <Text style={styles.text}>{ value }</Text>
         </View>
       ) : (
-        <Stars hasAllStars={false} note={star} />
+        <Stars style={{ justifyContent: 'flex-end' }} hasAllStars={false} note={star} />
       )}
     </View>
   )
