@@ -12,29 +12,45 @@ import theme from '../../theme'
 // import { s } from "./styles";
 // import { colors } from "@/styles/theme";
 
+type OptionButtonType = 'PRIMARY' | 'SECUNDARY'
 type ButtonProps = TouchableOpacityProps & {
   isLoading?: boolean
+  type?: OptionButtonType
 }
 
-function Button({ children, style, isLoading = false, ...rest }: ButtonProps) {
+function Button({ children, type = 'PRIMARY', style, isLoading = false, ...rest }: ButtonProps) {
   return (
     <TouchableOpacity
-      style={[styles.container, style]}
+      style={[styles.container, type === 'SECUNDARY' && styles.containerSecundary, style]}
       activeOpacity={0.8}
       disabled={isLoading}
       testID="touch"
       {...rest}
     >
       {isLoading ?
-        <ActivityIndicator size='small' color={theme.colors.gray[100]} />
+        <ActivityIndicator size='small'
+          color={type === 'PRIMARY' ? theme.colors.gray[100] : theme.colors.gray[600]}
+        />
         : children
       }
     </TouchableOpacity>
   )
 }
 
-function Title({ children, ...rest }: TextProps) {
-  return <Text style={styles.text}{...rest}>{children}</Text>
+interface TitleProps extends TextProps {
+  children: React.ReactNode
+  type?: OptionButtonType
+}
+
+function Title({ children, type, ...rest }: TitleProps) {
+  return (
+    <Text
+      style={[styles.text, type === 'SECUNDARY' && styles.textSecundary]}
+      {...rest}
+    >
+      {children}
+    </Text>
+  )
 }
 
 // type IconProps = {

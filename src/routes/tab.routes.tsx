@@ -4,6 +4,7 @@ import {
 } from '@react-navigation/bottom-tabs'
 import { Feather } from '@expo/vector-icons'
 
+import { ChampionshipRoutes } from './routesStack/championship.routes'
 import { Players } from '../screens/Players'
 import { PlayerRoutes } from './routesStack/player.routes'
 
@@ -45,7 +46,7 @@ export function TabRoutes() {
       />
       <Tab.Screen
         name='rachaTab'
-        component={Players}
+        component={ChampionshipRoutes}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Feather name="bold" size={size} color={color} />
@@ -53,7 +54,7 @@ export function TabRoutes() {
           tabBarLabel: 'Rachas',
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="currentGame"
         component={Players}
         options={{
@@ -62,7 +63,7 @@ export function TabRoutes() {
           ),
           tabBarLabel: 'Jogo',
         }}
-      />
+      /> */}
     </Tab.Navigator>
   )
 }

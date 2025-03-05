@@ -10,9 +10,15 @@ export const styles = StyleSheet.create({
     backgroundColor: theme.colors.primary,
     borderRadius: 8,
   },
+  containerSecundary: {
+    backgroundColor: theme.colors.white,
+  },
   text: {
     fontFamily: theme.fonts.rajdhani.bold,
     fontSize: 16,
     color: theme.colors.white,
+  },
+  textSecundary: {
+    color: theme.colors.gray[700]
   },
 })

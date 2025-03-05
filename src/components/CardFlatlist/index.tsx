@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from '@expo/vector-icons'
@@ -10,20 +9,16 @@ import { styles } from "./styles";
 
 interface Props extends TouchableOpacityProps {
   name: string
+  onPress: () => void
 }
 
-export function CardPlayer({ name, ...rest }: Props) {
-  const { navigate } = useNavigation<PlayerRoutesProps>()
-
-  const handleGoDetailsPlayer = useCallback(() => {
-    navigate('detailsPlayer')
-  }, [])
-
+export function CardFlatlist({ name, onPress, style, ...rest }: Props) {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      style={styles.container}
-      onPress={handleGoDetailsPlayer}
+      style={[styles.container, style]}
+      onPress={onPress}
+      {...rest}
     >
       <Text style={styles.text}>{name}</Text>
       <Feather
