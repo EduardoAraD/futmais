@@ -20,7 +20,7 @@ export function Championship() {
   }, [])
 
   const handleGoDetailsChampionship = useCallback(() => {
-    console.log('test')
+    navigate('detailsChampionship')
   }, [])
 
   return (

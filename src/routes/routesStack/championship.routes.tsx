@@ -4,13 +4,15 @@ import {
 } from '@react-navigation/native-stack'
 
 import { Championship } from '../../screens/Championship'
-import { SelectedPlayers } from '../../screens/SelectedPlayers'
+import { DetailsChampionship } from '../../screens/DetailsChampionship'
 import { PrizeDown } from '../../screens/PrizeDawn'
+import { SelectedPlayers } from '../../screens/SelectedPlayers'
 
 type ChampionshipRoutesType = {
   championship: undefined
   selectedPlayers: undefined
   prizeDawn: undefined
+  detailsChampionship: undefined
 }
 
 const { Navigator, Screen } = createNativeStackNavigator<ChampionshipRoutesType>()
@@ -24,6 +26,7 @@ export function ChampionshipRoutes() {
       <Screen name="championship" component={Championship} />
       <Screen name="selectedPlayers" component={SelectedPlayers} />
       <Screen name="prizeDawn" component={PrizeDown} />
+      <Screen name="detailsChampionship" component={DetailsChampionship} />
     </Navigator>
   )
 }
