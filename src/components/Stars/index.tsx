@@ -23,6 +23,13 @@ export function Stars({ note, hasAllStars = true, style, ...rest }: Props) {
 
   return (
     <View style={[styles.container, style]} {...rest}>
+      {arrayNumberStar.length === 0 && (
+        <MaterialCommunityIcons
+          name='star-outline'
+          color={theme.colors.yellow}
+          size={24}
+        />
+      )}
       {arrayNumberStar.map((_, index) => (
         <MaterialCommunityIcons
           key={index.toString()}

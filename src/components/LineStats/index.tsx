@@ -6,7 +6,7 @@ import { styles } from "./styles";
 
 interface Props {
   name: string
-  value: string
+  value: string | number
   star?: number
 }
 

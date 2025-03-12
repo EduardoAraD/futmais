@@ -3,14 +3,14 @@ import {
   createNativeStackNavigator,
 } from '@react-navigation/native-stack'
 
-import { DetailsPlayer } from '../../screens/DetailsPlayer'
+import { DetailsPlayer, DetailsPlayerRouteParams } from '../../screens/DetailsPlayer'
 import { Players } from '../../screens/Players'
-import { CreatePlayer } from '../../screens/CreatePlayer'
+import { CreatePlayer, CreatePlayerRouteParams } from '../../screens/CreatePlayer'
 
 type PlayerRoutesType = {
   players: undefined
-  detailsPlayer: undefined
-  createPlayer: undefined
+  detailsPlayer: DetailsPlayerRouteParams
+  createPlayer: CreatePlayerRouteParams
 }
 
 const { Navigator, Screen } = createNativeStackNavigator<PlayerRoutesType>()
