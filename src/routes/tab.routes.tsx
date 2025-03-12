@@ -5,7 +5,7 @@ import {
 import { Feather } from '@expo/vector-icons'
 
 import { ChampionshipRoutes } from './routesStack/championship.routes'
-import { Players } from '../screens/Players'
+import { Game } from '../screens/Game'
 import { PlayerRoutes } from './routesStack/player.routes'
 
 import theme from '../theme'
@@ -54,16 +54,16 @@ export function TabRoutes() {
           tabBarLabel: 'Rachas',
         }}
       />
-      {/* <Tab.Screen
+      <Tab.Screen
         name="currentGame"
-        component={Players}
+        component={Game}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Feather name="play" size={size} color={color} />
           ),
           tabBarLabel: 'Jogo',
         }}
-      /> */}
+      />
     </Tab.Navigator>
   )
 }
