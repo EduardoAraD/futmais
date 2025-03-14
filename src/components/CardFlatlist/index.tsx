@@ -1,14 +1,14 @@
 import { Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { Feather } from '@expo/vector-icons'
 
-import { PlayerRoutesProps } from "../../routes/routesStack/player.routes";
+import { StatusChampionship } from "../../Model/chempionship";
 
 import theme from "../../theme";
 import { styles } from "./styles";
 
 interface Props extends TouchableOpacityProps {
   name: string
+  status: StatusChampionship
   onPress: () => void
 }
 

@@ -4,7 +4,7 @@ import {
 } from '@react-navigation/native-stack'
 
 import { Championship } from '../../screens/Championship'
-import { DetailsChampionship } from '../../screens/DetailsChampionship'
+import { DetailsChampionship, DetailsChampionshipRouteParams } from '../../screens/DetailsChampionship'
 import { PrizeDown, PrizeDownRouteParams } from '../../screens/PrizeDawn'
 import { SelectedPlayers } from '../../screens/SelectedPlayers'
 import { PlayersToGame } from '../../screens/PlayersToGame'
@@ -14,7 +14,7 @@ type ChampionshipRoutesType = {
   championship: undefined
   selectedPlayers: undefined
   prizeDawn: PrizeDownRouteParams
-  detailsChampionship: undefined
+  detailsChampionship: DetailsChampionshipRouteParams
   playersGame: undefined
   notesPlayers: undefined
 }

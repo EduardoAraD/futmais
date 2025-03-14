@@ -1,15 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { KEY_STATS_PLAYER } from "./database";
-import { emptyStatsPlayer, StatsPlayer } from "../../Model/stats";
+import { emptyStats, Stats } from "../../Model/stats";
 
-export async function getStatsPlayerAS({ idPlayer }: { idPlayer: string }) {
+export async function getStatsAS({ idPlayer }: { idPlayer: string }) {
   const response = await AsyncStorage.getItem(`${KEY_STATS_PLAYER}${idPlayer}`)
 
   if(response) {
-    const stats = JSON.parse(response) as StatsPlayer
+    const stats = JSON.parse(response) as Stats
     return stats
   }
 
-  return emptyStatsPlayer
+  return emptyStats
 }

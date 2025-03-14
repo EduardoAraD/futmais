@@ -1,11 +1,11 @@
 import { View } from "react-native";
 
-import { StatsPlayer } from "../../../Model/stats";
+import { Stats } from "../../../Model/stats";
 import { LineStats } from "../../../components/LineStats";
 
 import { styles } from "./styles";
 
-interface Props extends StatsPlayer {
+interface Props extends Stats {
   numberChampionship: number
   avarageStars: number
 }

@@ -5,9 +5,9 @@ import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navig
 import { PlayerRoutesProps } from "../../routes/routesStack/player.routes";
 
 import { emptyPlayer, Player } from "../../Model/players";
-import { emptyStatsPlayerComplete, StatsPlayerComplete } from "../../Model/stats";
+import { emptyStatsComplete, StatsComplete } from "../../Model/stats";
 import { Background } from "../../components/Background";
-import { CardStatsPlayer } from "../../components/CardStatsPlayer";
+import { CardStats } from "../../components/CardStats";
 import { EditStats } from "./EditStats";
 import { LineBackground } from "../../components/LineBackground";
 import { Loading } from "../../components/Loading";
@@ -34,7 +34,7 @@ export function DetailsPlayer() {
   const { goBack, navigate } = useNavigation<PlayerRoutesProps>()
   
   const [player, setPlayer] = useState<Player>(emptyPlayer)
-  const [stats, setStats] = useState<StatsPlayerComplete>(emptyStatsPlayerComplete)
+  const [stats, setStats] = useState<StatsComplete>(emptyStatsComplete)
   const [loading, setLoading] = useState(true)
   
   const options: string[] = ['Editar Estatísticas', 'Mais Opções']
@@ -91,7 +91,7 @@ export function DetailsPlayer() {
       <View style={styles.container}>
         <LineBackground color={theme.colors.gray[600]} />
         <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-          <CardStatsPlayer
+          <CardStats
             goal={stats.goal}
             assistence={stats.assistence}
             mvp={stats.mvp}

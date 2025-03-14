@@ -8,10 +8,19 @@ export interface Player {
   disabled: boolean
 }
 
+export interface PlayerWithClubResume {
+  idPlayer: string
+  clubIndex: number
+}
+
+export interface PlayerWithClub extends Player {
+  clubIndex: number
+}
+
 export const emptyPlayer: Player = {
   id: '-1',
   name: '',
   role: 'Player',
   stars: 0,
   disabled: false,
-} 
+}

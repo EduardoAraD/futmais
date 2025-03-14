@@ -66,7 +66,6 @@ export function sortClubsByPlayers(
     const indexRandomCLub = Math.floor(numberRandom / coeficient)
 
     const find = playersKey.find(item => item === indexRandomCLub)
-    console.log(indexRandomCLub)
     if(find === undefined) {
       playersKey.push(indexRandomCLub)
     }
@@ -76,7 +75,6 @@ export function sortClubsByPlayers(
     const findIndex = playersKey.findIndex(item => item === index)
     if(findIndex !== -1) {
       clubsSort[findIndex].players.push(player)
-      console.log(findIndex, player.name)
     } else {
       playersRest.push(player)
     }

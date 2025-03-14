@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
-import { RouteProp, useRoute } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+
+import { ChampionshipRoutesProps } from "../../routes/routesStack/championship.routes";
 
 import { Club } from "../../Model/club";
 import { Player } from "../../Model/players";
@@ -9,6 +11,7 @@ import { Button } from "../../components/Button";
 import { CardClub } from "../../components/CardClub";
 import { TouchBackWithTitle } from "../../components/TouchBackWithTitle";
 
+import { createNewChampionshipServices } from "../../services/championship";
 import { sortClubsByPlayers } from "../../utils/sortClubs";
 import theme from "../../theme";
 import { styles } from "./styles";
@@ -23,13 +26,18 @@ type ParamList = {
 }
 
 export function PrizeDown() {
+  const { navigate } = useNavigation<ChampionshipRoutesProps>()
   const { qtdPlayersForClub, players } = useRoute<RouteProp<ParamList, 'Prize'>>().params
   const [clubs, setClubs] = useState<Club[]>([])
   const [loadingCreateRacha, setLoadingCreateRacha] = useState(false)
 
-  async function handleCreateRacha() {
-    console.log('create')
-  }
+  const handleCreateRacha = useCallback(async () => {
+    setLoadingCreateRacha(true)
+    await createNewChampionshipServices({ clubs })
+    setLoadingCreateRacha(false)
+
+    navigate('championship')
+  }, [clubs]);
 
   const sortPlayers = useCallback(() => {
     const listClubs = sortClubsByPlayers({ players, playersForClub: qtdPlayersForClub })
@@ -62,7 +70,11 @@ export function PrizeDown() {
           <Button style={{ flex: 2, height: 48 }} type="SECUNDARY" onPress={sortPlayers}>
             <Button.Title type="SECUNDARY">Resortear</Button.Title>
           </Button>
-          <Button style={{ flex: 3, height: 48 }}>
+          <Button
+            style={{ flex: 3, height: 48 }}
+            onPress={handleCreateRacha}
+            isLoading={loadingCreateRacha}
+          >
             <Button.Title>Criar Racha</Button.Title>
           </Button>
         </View>

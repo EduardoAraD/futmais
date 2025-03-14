@@ -7,10 +7,14 @@ import { Button } from "../../../components/Button";
 import { CardClub } from "../../../components/CardClub";
 
 import { styles } from "./styles";
+import { Club } from "../../../Model/club";
 
-export function InformationDetailsChampionship() {
+interface Props {
+  clubs: Club[]
+}
+
+export function InformationDetailsChampionship({ clubs }: Props) {
   const { navigate } = useNavigation<ChampionshipRoutesProps>()
-  const list = ['1', '2', '3', '4']
 
   const handleGoPlayersToGame = useCallback(() => {
     navigate('playersGame')
@@ -24,12 +28,12 @@ export function InformationDetailsChampionship() {
       <FlatList
         contentContainerStyle={styles.flat}
         showsVerticalScrollIndicator={false}
-        data={list}
-        keyExtractor={(item) => item}
+        data={clubs}
+        keyExtractor={(item, index) => `${item.players.length}-${index}`}
         renderItem={({ item, index }) => (
           <CardClub
             numberClub={index + 1}
-            players={list}
+            players={item.players}
           />
         )}
         ItemSeparatorComponent={() => <View style={{ height: 15 }} />}

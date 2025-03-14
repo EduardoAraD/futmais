@@ -1,8 +1,8 @@
 import { createPlayerAS, getListPlayersAS, getPlayerAS, changeDisabledPlayerAS, saveListPlayersAS } from "../lib/asyncstorage/player";
-import { getStatsPlayerAS } from "../lib/asyncstorage/statsPlayer";
+import { getStatsAS } from "../lib/asyncstorage/stats";
 
 import { Player } from "../Model/players";
-import { StatsPlayerComplete } from "../Model/stats";
+import { StatsComplete } from "../Model/stats";
 
 export async function getAllPlayersServices() {
   const list = await getListPlayersAS()
@@ -15,7 +15,7 @@ export async function createPlayerServices(player: Player) {
 }
 
 interface ResponseDetailsPlayer {
-  stats: StatsPlayerComplete
+  stats: StatsComplete
   player: Player
 }
 export async function getDetailsPlayerService({ idPlayer }: { idPlayer: string }): Promise<ResponseDetailsPlayer | null> {
@@ -24,7 +24,7 @@ export async function getDetailsPlayerService({ idPlayer }: { idPlayer: string }
     return null
   }
 
-  const stats = await getStatsPlayerAS({ idPlayer })
+  const stats = await getStatsAS({ idPlayer })
 
   return {
     player,

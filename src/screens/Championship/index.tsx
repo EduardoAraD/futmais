@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -10,31 +10,43 @@ import { TitleFlatlist } from "../../components/TitleFlatlist";
 import { TouchPlusScreen } from "../../components/TouchPlusScreen";
 
 import theme from "../../theme";
+import { ChampionshipResume } from "../../Model/chempionship";
+import { getAllChampionshipsServices } from "../../services/championship";
 
 export function Championship() {
   const { navigate } = useNavigation<ChampionshipRoutesProps>()
-  const list = [1, 2, 3, 4, 5]
+  const [championship, setChampionship] = useState<ChampionshipResume[]>([])
 
   const handleGoCreateChampionship = useCallback(() => {
     navigate('selectedPlayers')
   }, [])
 
-  const handleGoDetailsChampionship = useCallback(() => {
-    navigate('detailsChampionship')
+  const handleGoDetailsChampionship = useCallback((idChampionship: string) => {
+    navigate('detailsChampionship', { idChampionship })
   }, [])
+
+  const loadChampionship = useCallback(async () => {
+    const championships = await getAllChampionshipsServices()
+
+    setChampionship(championships)
+  }, [])
+  useEffect(() => {
+    loadChampionship()
+  }, [loadChampionship])
 
   return (
     <Background color={theme.colors.gray[700]}>
       <Background.Padding>
         <Title title="Gerenciamento de Rachas" />
-        <TitleFlatlist title="Rachas" value={3} />
+        <TitleFlatlist title="Rachas" value={championship.length} />
         <FlatList
-          data={list}
-          keyExtractor={item => String(item)}
+          data={championship}
+          keyExtractor={item => item.id}
           renderItem={({ item }) => (
             <CardFlatlist
-              name="Racha - 01/03/2019"
-              onPress={handleGoDetailsChampionship}
+              name={`Racha - ${new Date(item.date).toLocaleDateString()}`}
+              status={item.status}
+              onPress={() => handleGoDetailsChampionship(item.id)}
             />
           )}
           ItemSeparatorComponent={() => <View style={{ height: 6 }} />}

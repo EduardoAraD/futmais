@@ -1,15 +1,15 @@
 import { Text, View } from "react-native";
 
-import { StatsPlayer } from "../../Model/stats";
+import { Stats } from "../../Model/stats";
 import { Loading } from "../Loading";
 
 import { styles } from "./styles";
 
-interface Props extends StatsPlayer {
+interface Props extends Stats {
   loading: boolean
 }
 
-export function CardStatsPlayer({
+export function CardStats({
   loading, goal, assistence, mvp, pp
 }: Props) {
   return (
