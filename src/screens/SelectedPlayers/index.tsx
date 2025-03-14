@@ -1,9 +1,11 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from '@expo/vector-icons'
 
 import { ChampionshipRoutesProps } from "../../routes/routesStack/championship.routes";
+
+import { Player } from "../../Model/players";
 import { Background } from "../../components/Background";
 import { Button } from "../../components/Button";
 import { CardSelectPlayer } from "../../components/CardSelectPlayer";
@@ -11,39 +13,76 @@ import { ModalAddPlayer } from "../../components/ModalAddPlayer";
 import { TitleFlatlist } from "../../components/TitleFlatlist";
 import { TouchBackWithTitle } from "../../components/TouchBackWithTitle";
 
+import { getAllPlayersServices } from "../../services/players";
 import theme from "../../theme";
 import { styles } from "./styles";
 
 export function SelectedPlayers() {
   const { navigate } = useNavigation<ChampionshipRoutesProps>()
-  const [numberPlayers, setNumberPlayers] = useState(2)
-  const [list, setList] = useState([1, 2, 3])
+  const [playersForClub, setPlayersForClub] = useState(2)
+  const [allPlayers, setAllPlayers] = useState<Player[]>([])
+  const [players, setPlayers] = useState<Player[]>([])
   const [showModal, setShowModal] = useState(false)
 
   const handlePlusNumberPlayer = useCallback(() => {
-    if(numberPlayers + 1 <= 10) {
-      setNumberPlayers(state => state + 1)
+    if(playersForClub + 1 <= 10) {
+      setPlayersForClub(state => state + 1)
     }
-  }, [numberPlayers])
+  }, [playersForClub])
+
   const handleMinusNumberPlayer = useCallback(() => {
-    if(numberPlayers - 1 >= 1) {
-      setNumberPlayers(state => state - 1)
+    if(playersForClub - 1 >= 1) {
+      setPlayersForClub(state => state - 1)
     }
-  }, [numberPlayers])
+  }, [playersForClub])
 
   const handleGoPrizeDawn = useCallback(() => {
-    navigate('prizeDawn')
+    navigate('prizeDawn', {
+      qtdPlayersForClub: playersForClub,
+      players: players.sort((a, b) => (a.stars < b.stars ? 1 : -1)),
+    })
+  }, [playersForClub, players])
+
+  const handleRemovePlayer = useCallback((idPlayer: string) => {
+    setPlayers(state => state.filter(item => item.id !== idPlayer))
   }, [])
 
-  const handleRemovePlayer = useCallback((player: number) => {
-    console.log(player)
+  const addPlayers = useCallback((listPlayers: Player[]) => {
+    setPlayers(state => [...state, ...listPlayers])
   }, [])
+
+  const loadPlayers = useCallback(async () => {
+    const listPlayers = await getAllPlayersServices()
+    setAllPlayers(listPlayers)
+  }, [])
+
+  useEffect(() => {
+    loadPlayers()
+  }, [loadPlayers])
+
+  const playersModal = useMemo(() => {
+    const filterPlayers = allPlayers.filter(player => {
+      const find = players.find(item => item.id === player.id)
+      return find === undefined
+    })
+
+    return filterPlayers
+  }, [allPlayers, players])
+
+  const disabledButtonSort = useMemo(() => {
+    return playersForClub * 2 > players.length
+  }, [playersForClub, players])
 
   return (
     <Background color={theme.colors.gray[700]}>
       <Background.Padding>
         <TouchBackWithTitle title="Criar novo Racha" />
-        <ModalAddPlayer list={list} visible={showModal} onClose={() => setShowModal(false)} />
+        <ModalAddPlayer
+          players={playersModal}
+          visible={showModal}
+          onClose={() => setShowModal(false)}
+          onConfirmPlayers={addPlayers}
+        />
         <View style={styles.content}>
           <Text style={styles.title}>Quantos jogadores por time?</Text>
           <View style={styles.options}>
@@ -53,7 +92,7 @@ export function SelectedPlayers() {
             >
               <Feather name="minus" size={24} color={theme.colors.white} />
             </TouchableOpacity>
-            <Text style={styles.textOption}>{numberPlayers}</Text>
+            <Text style={styles.textOption}>{playersForClub}</Text>
             <TouchableOpacity activeOpacity={0.8}
               onPress={handlePlusNumberPlayer}
               style={[styles.touch, { backgroundColor: theme.colors.green }]}
@@ -62,23 +101,27 @@ export function SelectedPlayers() {
             </TouchableOpacity>
           </View>
         </View>
-        <TitleFlatlist title="Lista de jogadores" value={list.length} />
+        <TitleFlatlist title="Lista de jogadores" value={players.length} />
         <Button style={{ height: 40, marginBottom: 20, }} onPress={() => setShowModal(true)}>
           <Button.Title>Adicionar Jogador</Button.Title>
         </Button>
         <FlatList
-          data={list}
-          keyExtractor={item => String(item)}
+          data={players}
+          keyExtractor={item => item.id}
           renderItem={({ item }) => (
             <CardSelectPlayer
-              name="Player"
-              onPressTrash={() => handleRemovePlayer(item)}
+              name={item.name}
+              onPressTrash={() => handleRemovePlayer(item.id)}
             />
           )}
           ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         />
 
-        <Button style={{ height: 48 }} onPress={handleGoPrizeDawn}>
+        <Button
+          disabled={disabledButtonSort}
+          style={[{ height: 48 }, disabledButtonSort && { backgroundColor: theme.colors.gray[500]}]} 
+          onPress={handleGoPrizeDawn}
+        >
           <Button.Title>Sortear</Button.Title>
         </Button>
       </Background.Padding>

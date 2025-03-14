@@ -1,13 +1,45 @@
+import { useCallback, useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
+import { RouteProp, useRoute } from "@react-navigation/native";
+
+import { Club } from "../../Model/club";
+import { Player } from "../../Model/players";
 import { Background } from "../../components/Background";
+import { Button } from "../../components/Button";
+import { CardClub } from "../../components/CardClub";
+import { TouchBackWithTitle } from "../../components/TouchBackWithTitle";
+
+import { sortClubsByPlayers } from "../../utils/sortClubs";
 import theme from "../../theme";
 import { styles } from "./styles";
-import { TouchBackWithTitle } from "../../components/TouchBackWithTitle";
-import { CardClub } from "../../components/CardClub";
-import { Button } from "../../components/Button";
+
+export interface PrizeDownRouteParams {
+  qtdPlayersForClub: number
+  players: Player[]
+}
+
+type ParamList = {
+  Prize: PrizeDownRouteParams
+}
 
 export function PrizeDown() {
-  const list = ['1', '2', '3', '4']
+  const { qtdPlayersForClub, players } = useRoute<RouteProp<ParamList, 'Prize'>>().params
+  const [clubs, setClubs] = useState<Club[]>([])
+  const [loadingCreateRacha, setLoadingCreateRacha] = useState(false)
+
+  async function handleCreateRacha() {
+    console.log('create')
+  }
+
+  const sortPlayers = useCallback(() => {
+    const listClubs = sortClubsByPlayers({ players, playersForClub: qtdPlayersForClub })
+
+    setClubs(listClubs)
+  }, [players, qtdPlayersForClub])
+
+  useEffect(() => {
+    sortPlayers()
+  }, [sortPlayers])
 
   return (
     <Background color={theme.colors.gray[700]}>
@@ -16,18 +48,18 @@ export function PrizeDown() {
         <FlatList
           contentContainerStyle={styles.flat}
           showsVerticalScrollIndicator={false}
-          data={list}
-          keyExtractor={(item) => item}
+          data={clubs}
+          keyExtractor={(item, index) => `${item.players.length}-${index}`}
           renderItem={({ item, index }) => (
             <CardClub
               numberClub={index + 1}
-              players={list}
+              players={item.players}
             />
           )}
           ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
         />
         <View style={styles.options}>
-          <Button style={{ flex: 2, height: 48 }} type="SECUNDARY">
+          <Button style={{ flex: 2, height: 48 }} type="SECUNDARY" onPress={sortPlayers}>
             <Button.Title type="SECUNDARY">Resortear</Button.Title>
           </Button>
           <Button style={{ flex: 3, height: 48 }}>

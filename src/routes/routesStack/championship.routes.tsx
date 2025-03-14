@@ -5,7 +5,7 @@ import {
 
 import { Championship } from '../../screens/Championship'
 import { DetailsChampionship } from '../../screens/DetailsChampionship'
-import { PrizeDown } from '../../screens/PrizeDawn'
+import { PrizeDown, PrizeDownRouteParams } from '../../screens/PrizeDawn'
 import { SelectedPlayers } from '../../screens/SelectedPlayers'
 import { PlayersToGame } from '../../screens/PlayersToGame'
 import { NotesPlayers } from '../../screens/NotesPlayers'
@@ -13,7 +13,7 @@ import { NotesPlayers } from '../../screens/NotesPlayers'
 type ChampionshipRoutesType = {
   championship: undefined
   selectedPlayers: undefined
-  prizeDawn: undefined
+  prizeDawn: PrizeDownRouteParams
   detailsChampionship: undefined
   playersGame: undefined
   notesPlayers: undefined
