@@ -1,10 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { Championship, ChampionshipResume } from "../../Model/chempionship";
-import { StatsWithPlayer } from "../../Model/stats";
 import { KEY_LIST_CHAMPIONSHIP, KEY_PLAYERS_CHAMPIONSHIP, KEY_STATS_CHAMPIONSHIP } from "./database";
-import { getListPlayersAS } from "./player";
-import { emptyPlayer, PlayerWithClub, PlayerWithClubResume } from "../../Model/players";
+import { Championship, ChampionshipResume } from "../../model/chempionship";
+import { PlayerWithClubResume } from "../../model/players";
+import { StatsWithPlayer } from "../../model/stats";
 
 export async function saveAllChampionshipAS(
   { championships }: { championships: ChampionshipResume[]}
@@ -19,21 +18,25 @@ export async function getAllChampionshipAS(): Promise<ChampionshipResume[]> {
   }
   return []
 }
+export async function removeAllChampionshipAS() {
+  await AsyncStorage.removeItem(KEY_LIST_CHAMPIONSHIP)
+}
 
 export async function saveNewChampionshipAS(
   { championship }: { championship: Championship }
 ) {
   const { players, playersReserve } = championship
-  const championshipReseume: ChampionshipResume = {
+  const championshipResume: ChampionshipResume = {
     id: championship.id,
     status: championship.status,
     date: championship.date,
+    qtdPlayersForClub: championship.qtdPlayersForClub,
   }
 
   const list = await getAllChampionshipAS()
 
   await Promise.all([
-    saveAllChampionshipAS({ championships: [...list, championshipReseume ]}),
+    saveAllChampionshipAS({ championships: [...list, championshipResume ]}),
     savePlayersChampionshipAS({
       playersClub: players, playersReserve, idChampionship: championship.id
     }),
@@ -48,7 +51,7 @@ export async function getChampionshipAS(
   if(championship === undefined) return undefined
 
   const stats = await getStatsChampionshipAS({ idChampionship })
-  const { playersClub, playersReserve } = await getPlayersChamíonshipAS({ idChampionship })
+  const { playersClub, playersReserve } = await getPlayersChampionshipAS({ idChampionship })
 
   return {
     ...championship,
@@ -96,7 +99,7 @@ export async function savePlayersChampionshipAS(
     JSON.stringify(obj)
   );
 }
-export async function getPlayersChamíonshipAS(
+export async function getPlayersChampionshipAS(
   { idChampionship }: { idChampionship: string }
 ): Promise<PlayersChampionship> {
   const response = await AsyncStorage.getItem(`${KEY_PLAYERS_CHAMPIONSHIP}-${idChampionship}`)

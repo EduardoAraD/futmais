@@ -4,8 +4,8 @@ import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navig
 
 import { PlayerRoutesProps } from "../../routes/routesStack/player.routes";
 
-import { emptyPlayer, Player } from "../../Model/players";
-import { emptyStatsComplete, StatsComplete } from "../../Model/stats";
+import { emptyPlayer, Player } from "../../model/players";
+import { emptyStatsComplete, StatsComplete } from "../../model/stats";
 import { Background } from "../../components/Background";
 import { CardStats } from "../../components/CardStats";
 import { EditStats } from "./EditStats";

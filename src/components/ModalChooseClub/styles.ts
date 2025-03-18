@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
   },
   playerSelectView: {
     width: '100%',
-    backgroundColor: theme.colors.gray[500],
+    backgroundColor: theme.colors.darkPrimary,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -81,7 +81,7 @@ export const styles = StyleSheet.create({
   },
   playerView: {
     width: '100%',
-    backgroundColor: theme.colors.gray[500],
+    backgroundColor: theme.colors.gray[400],
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

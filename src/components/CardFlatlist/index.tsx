@@ -1,7 +1,7 @@
 import { Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
 import { Feather } from '@expo/vector-icons'
 
-import { StatusChampionship } from "../../Model/chempionship";
+import { StatusChampionship } from "../../model/chempionship";
 
 import theme from "../../theme";
 import { styles } from "./styles";

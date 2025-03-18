@@ -3,7 +3,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import { styles } from "./styles";
 import theme from "../../theme";
-import { Player } from "../../Model/players";
+import { Player } from "../../model/players";
 import { useMemo } from "react";
 
 interface Props {

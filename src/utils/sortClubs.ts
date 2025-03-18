@@ -1,5 +1,5 @@
-import { Club } from "../Model/club";
-import { Player } from "../Model/players";
+import { Club } from "../model/club";
+import { Player } from "../model/players";
 
 function optionsClub(clubsSort: Club[], limitPlayer: number) {
   let max = 999999

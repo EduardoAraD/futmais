@@ -5,7 +5,7 @@ import { Feather } from '@expo/vector-icons'
 
 import { ChampionshipRoutesProps } from "../../routes/routesStack/championship.routes";
 
-import { Player } from "../../Model/players";
+import { Player } from "../../model/players";
 import { Background } from "../../components/Background";
 import { Button } from "../../components/Button";
 import { CardSelectPlayer } from "../../components/CardSelectPlayer";

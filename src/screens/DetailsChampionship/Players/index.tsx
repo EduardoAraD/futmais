@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 
-import { Player, PlayerWithClub } from "../../../Model/players";
+import { Player, PlayerWithClub } from "../../../model/players";
 import { Button } from "../../../components/Button";
 import { ModalAddPlayer } from "../../../components/ModalAddPlayer";
 

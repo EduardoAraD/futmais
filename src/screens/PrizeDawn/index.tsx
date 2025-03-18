@@ -4,8 +4,8 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 
 import { ChampionshipRoutesProps } from "../../routes/routesStack/championship.routes";
 
-import { Club } from "../../Model/club";
-import { Player } from "../../Model/players";
+import { Club } from "../../model/club";
+import { Player } from "../../model/players";
 import { Background } from "../../components/Background";
 import { Button } from "../../components/Button";
 import { CardClub } from "../../components/CardClub";
@@ -33,11 +33,11 @@ export function PrizeDown() {
 
   const handleCreateRacha = useCallback(async () => {
     setLoadingCreateRacha(true)
-    await createNewChampionshipServices({ clubs })
+    await createNewChampionshipServices({ clubs, qtdPlayersForClub })
     setLoadingCreateRacha(false)
 
     navigate('championship')
-  }, [clubs]);
+  }, [clubs, qtdPlayersForClub]);
 
   const sortPlayers = useCallback(() => {
     const listClubs = sortClubsByPlayers({ players, playersForClub: qtdPlayersForClub })

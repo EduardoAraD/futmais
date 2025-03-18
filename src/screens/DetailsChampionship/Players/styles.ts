@@ -4,6 +4,7 @@ import theme from "../../../theme";
 export const styles = StyleSheet.create({
   container: {
     marginTop: 13,
+    flex: 1,
   },
   scroll: {
     paddingBottom: 40,

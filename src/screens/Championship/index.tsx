@@ -1,21 +1,31 @@
 import { useCallback, useEffect, useState } from "react";
-import { FlatList, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { FlatList, RefreshControl, View } from "react-native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import { ChampionshipRoutesProps } from "../../routes/routesStack/championship.routes";
+import { ChampionshipResume } from "../../model/chempionship";
 import { Background } from "../../components/Background";
 import { CardFlatlist } from "../../components/CardFlatlist";
 import { Title } from "../../components/Title";
 import { TitleFlatlist } from "../../components/TitleFlatlist";
 import { TouchPlusScreen } from "../../components/TouchPlusScreen";
 
-import theme from "../../theme";
-import { ChampionshipResume } from "../../Model/chempionship";
 import { getAllChampionshipsServices } from "../../services/championship";
+import { removeAllChampionshipAS } from "../../lib/asyncstorage/championship";
+import theme from "../../theme";
 
 export function Championship() {
   const { navigate } = useNavigation<ChampionshipRoutesProps>()
   const [championship, setChampionship] = useState<ChampionshipResume[]>([])
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    
+    await removeAllChampionshipAS()
+    
+    setRefreshing(false);
+  }, []);
 
   const handleGoCreateChampionship = useCallback(() => {
     navigate('selectedPlayers')
@@ -30,9 +40,10 @@ export function Championship() {
 
     setChampionship(championships)
   }, [])
-  useEffect(() => {
+
+  useFocusEffect(useCallback(() => {
     loadChampionship()
-  }, [loadChampionship])
+  }, []))
 
   return (
     <Background color={theme.colors.gray[700]}>
@@ -42,6 +53,9 @@ export function Championship() {
         <FlatList
           data={championship}
           keyExtractor={item => item.id}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
           renderItem={({ item }) => (
             <CardFlatlist
               name={`Racha - ${new Date(item.date).toLocaleDateString()}`}

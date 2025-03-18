@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 
-import { Stats } from "../../Model/stats";
+import { Stats } from "../../model/stats";
 import { Loading } from "../Loading";
 
 import { styles } from "./styles";

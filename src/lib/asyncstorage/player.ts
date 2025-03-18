@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { Player } from "../../Model/players";
+import { Player } from "../../model/players";
 import { KEY_LIST_PLAYERS } from './database';
 
 export async function getListPlayersAS() {

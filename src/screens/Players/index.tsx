@@ -3,7 +3,7 @@ import { FlatList, View } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import { PlayerRoutesProps } from "../../routes/routesStack/player.routes";
-import { emptyPlayer, Player } from "../../Model/players";
+import { emptyPlayer, Player } from "../../model/players";
 import { Background } from "../../components/Background";
 import { CardFlatlist } from "../../components/CardFlatlist";
 import { Loading } from "../../components/Loading";
@@ -57,6 +57,7 @@ export function Players() {
               <CardFlatlist
                 name={item.name}
                 onPress={() => handleGoDetailsPlayer(item.id)}
+                status='final'
               />
             )}
             ItemSeparatorComponent={() => <View style={{ height: 6 }} />}

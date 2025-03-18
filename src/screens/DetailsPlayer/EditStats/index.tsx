@@ -1,6 +1,6 @@
 import { View } from "react-native";
 
-import { Stats } from "../../../Model/stats";
+import { Stats } from "../../../model/stats";
 import { LineStats } from "../../../components/LineStats";
 
 import { styles } from "./styles";

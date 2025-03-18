@@ -1,8 +1,8 @@
 import { createPlayerAS, getListPlayersAS, getPlayerAS, changeDisabledPlayerAS, saveListPlayersAS } from "../lib/asyncstorage/player";
 import { getStatsAS } from "../lib/asyncstorage/stats";
 
-import { Player } from "../Model/players";
-import { StatsComplete } from "../Model/stats";
+import { Player } from "../model/players";
+import { StatsComplete } from "../model/stats";
 
 export async function getAllPlayersServices() {
   const list = await getListPlayersAS()

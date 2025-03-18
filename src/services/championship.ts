@@ -1,16 +1,18 @@
 import * as Crypto from 'expo-crypto'
 
-import { Championship } from "../Model/chempionship"
-import { PlayerWithClub, PlayerWithClubResume } from '../Model/players'
-import { Club } from '../Model/club'
-import { getAllChampionshipAS, getChampionshipAS, getPlayersChamíonshipAS, saveNewChampionshipAS } from '../lib/asyncstorage/championship'
+import { Championship } from "../model/chempionship"
+import { Player, PlayerWithClub, PlayerWithClubResume } from '../model/players'
+import { Club } from '../model/club'
+import { getAllChampionshipAS, getChampionshipAS, getPlayersChampionshipAS, saveNewChampionshipAS, savePlayersChampionshipAS } from '../lib/asyncstorage/championship'
 import { getListPlayersAS } from '../lib/asyncstorage/player'
 
 export async function getAllChampionshipsServices() {
   return await getAllChampionshipAS()
 }
 
-export async function createNewChampionshipServices({ clubs }: { clubs: Club[] }) {
+export async function createNewChampionshipServices(
+  { clubs, qtdPlayersForClub }: { clubs: Club[], qtdPlayersForClub: number }
+) {
   const players: PlayerWithClubResume[] = []
   clubs.forEach(club => {
     club.players.forEach((item, index) => {
@@ -22,6 +24,7 @@ export async function createNewChampionshipServices({ clubs }: { clubs: Club[] }
     id: Crypto.randomUUID(),
     date: new Date().toISOString(),
     status: 'current',
+    qtdPlayersForClub,
     players,
     playersReserve: [],
     stats: [],
@@ -54,4 +57,17 @@ export async function getChampionshipCompleteServices({ idChampionship }: { idCh
     playersReserve,
     stats: championship.stats,
   }
+}
+
+export async function addPlayersReserveChampionshipServices(
+  { newPlayers, idChampionship }: { newPlayers: Player[], idChampionship: string }
+) {
+  const players = await getPlayersChampionshipAS({ idChampionship })
+  const idPlayers = newPlayers.map(item => item.id)
+
+  await savePlayersChampionshipAS({
+    playersClub: players.playersClub,
+    playersReserve: [...players.playersReserve, ...idPlayers],
+    idChampionship,
+  })
 }

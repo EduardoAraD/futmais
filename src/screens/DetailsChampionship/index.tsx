@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { RouteProp, useRoute } from "@react-navigation/native";
 
-import { ChampionshipResume, emptyChampionship } from "../../Model/chempionship";
-import { Club } from "../../Model/club";
-import { Player, PlayerWithClub } from "../../Model/players";
+import { ChampionshipResume, emptyChampionship } from "../../model/chempionship";
+import { Club } from "../../model/club";
+import { Player, PlayerWithClub } from "../../model/players";
 import { Background } from "../../components/Background";
 import { InformationDetailsChampionship } from "./Information";
 import { OptionLine } from "../../components/OptionLine";
 import { PlayersDetailsChampionship } from "./Players";
 import { TouchBackWithTitle } from "../../components/TouchBackWithTitle";
 
-import { getChampionshipCompleteServices } from "../../services/championship";
+import { addPlayersReserveChampionshipServices, getChampionshipCompleteServices } from "../../services/championship";
 import { getAllPlayersServices } from "../../services/players";
 import theme from "../../theme";
 
@@ -33,7 +33,8 @@ export function DetailsChampionship() {
 
   const addPlayersReserve = useCallback((listPlayers: Player[]) => {
     setPlayersReserve(state => [...state, ...listPlayers])
-  }, [])
+    addPlayersReserveChampionshipServices({ newPlayers: listPlayers, idChampionship })
+  }, [idChampionship])
 
   const loadChampionship = useCallback(async () => {
     const championshipResponse = await getChampionshipCompleteServices({ idChampionship })
@@ -44,31 +45,34 @@ export function DetailsChampionship() {
       setChampionship({
         id: championshipResponse.id,
         date: championshipResponse.date,
-        status: championship.status
+        status: championship.status,
+        qtdPlayersForClub: championship.qtdPlayersForClub,
       })
       setPlayersReserve(championshipResponse.playersReserve)
     }
     
   }, [idChampionship])
+
   useEffect(() => {
     loadChampionship()
   }, [loadChampionship])
 
+  const allPlayersChampionship: PlayerWithClub[] = useMemo(() => {
+    return [...players,...playersReserve.map(item => ({...item, clubIndex: -1 }))]
+  }, [players, playersReserve])
+
   const playersModal = useMemo(() => {
     const filterPlayers = allPlayers.filter(player => {
-      const find = players.find(item => item.id === player.id)
-      if(find === undefined) {
-        const findReserve = playersReserve.find(item => item.id === player.id)
-        return findReserve === undefined
-      }
-      return false
+      const find = allPlayersChampionship.find(item => item.id === player.id)
+
+      return find === undefined
     })
 
     return filterPlayers
-  }, [allPlayers, players])
+  }, [allPlayers, allPlayersChampionship])
 
   const clubs: Club[] = useMemo(() => {
-    let thanId = 0
+    let thanId = championship.qtdPlayersForClub
     players.forEach(item => {
       if(thanId < item.clubIndex) { thanId = item.clubIndex }
     })
@@ -82,7 +86,7 @@ export function DetailsChampionship() {
 
     return listClubs
   }, [players])
-  
+
   return (
     <Background color={theme.colors.gray[700]}>
       <Background.Padding>
@@ -102,6 +106,8 @@ export function DetailsChampionship() {
         ) : (
           <InformationDetailsChampionship
             clubs={clubs}
+            players={allPlayersChampionship}
+            qtdPlayersToClub={championship.qtdPlayersForClub}
           />
         )}
       </Background.Padding>

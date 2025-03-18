@@ -7,6 +7,7 @@ export interface Championship {
   id: string
   date: string
   status: StatusChampionship
+  qtdPlayersForClub: number
   players: PlayerWithClubResume[]
   playersReserve: string[]
   stats: StatsWithPlayer[]
@@ -16,6 +17,7 @@ export interface ChampionshipResume {
   id: string
   date: string
   status: StatusChampionship
+  qtdPlayersForClub: number
 }
 
 export const emptyChampionship: Championship = {
@@ -25,4 +27,5 @@ export const emptyChampionship: Championship = {
   players: [],
   playersReserve: [],
   stats: [],
+  qtdPlayersForClub: 0,
 }

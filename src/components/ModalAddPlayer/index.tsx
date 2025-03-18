@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { Feather } from '@expo/vector-icons'
 
-import { Player } from "../../Model/players";
+import { Player } from "../../model/players";
 import { Button } from "../Button";
 import { CardSelectPlayerStar } from "../CardSelectPlayerStar";
 import { LineBackground } from "../LineBackground";

@@ -4,7 +4,7 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import * as Crypto from 'expo-crypto'
 import StarRating from 'react-native-star-rating-widget';
 
-import { Player, RolePlayer } from "../../Model/players";
+import { Player, RolePlayer } from "../../model/players";
 import { Background } from "../../components/Background";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
