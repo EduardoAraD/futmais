@@ -33,7 +33,9 @@ export async function createNewChampionshipServices(
   await saveNewChampionshipAS({ championship: newChampionship })
 }
 
-export async function getChampionshipCompleteServices({ idChampionship }: { idChampionship: string }) {
+export async function getChampionshipCompleteServices(
+  { idChampionship }: { idChampionship: string }
+) {
   const championship = await getChampionshipAS({ idChampionship })
   if(championship === undefined) return undefined
   
@@ -53,6 +55,7 @@ export async function getChampionshipCompleteServices({ idChampionship }: { idCh
     id: championship.id,
     date: championship.date,
     status: championship.status,
+    qtdPlayersForClub: championship.qtdPlayersForClub,
     playersClub,
     playersReserve,
     stats: championship.stats,

@@ -1,8 +1,11 @@
 import { useCallback, useMemo, useState } from "react";
 import { ScrollView, View } from "react-native";
-import { RouteProp, useRoute } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 
-import { Player, PlayerWithClub } from "../../model/players";
+import { useChampionship } from "../../hook/useChampionship";
+
+import { GameCurrent } from "../../model/gameCurrent";
+import { Player, PlayerInGame, PlayerWithClub } from "../../model/players";
 import { Background } from "../../components/Background";
 import { Button } from "../../components/Button";
 import { ClubView } from "./ClubView";
@@ -10,6 +13,7 @@ import { TouchBackWithTitle } from "../../components/TouchBackWithTitle";
 
 import theme from "../../theme";
 import { styles } from "./styles";
+import { TabNavigatorRoutesProps } from "../../routes/tab.routes";
 
 export interface PlayersToGameRouteParams {
   players: PlayerWithClub[]
@@ -21,6 +25,9 @@ type ParamList = {
 
 export function PlayersToGame() {
   const { players, qtdPlayersToClub } = useRoute<RouteProp<ParamList, 'Players'>>().params
+  const { navigate } = useNavigation<TabNavigatorRoutesProps>()
+  const { createGameCurrent } = useChampionship()
+
   const [playersClub1, setPlayersClub1] = useState<Player[]>([])
   const [playersClub2, setPlayersClub2] = useState<Player[]>([])
 
@@ -37,6 +44,22 @@ export function PlayersToGame() {
     ))
   }, [])
 
+  const handleCreateGame = useCallback(() => {
+    const club1: PlayerInGame[] = playersClub1.map(item => ({
+      player: item, goal: 0, assistence: 0, 
+    }))
+    const club2: PlayerInGame[] = playersClub2.map(item => ({
+      player: item, goal: 0, assistence: 0, 
+    }))
+    const gameCurrent: GameCurrent = {
+      club1,
+      club2,
+    }
+
+    createGameCurrent(gameCurrent)
+    navigate('currentGame')
+  }, [playersClub1, playersClub2])
+
   const listClubIndex = useMemo(() => {
     const list: number[] = []
     players.forEach(player => {
@@ -48,6 +71,10 @@ export function PlayersToGame() {
 
     return list.filter(item => item !== -1)
   }, [players])
+
+  const disabledClub = useMemo(() => {
+    return !(qtdPlayersToClub === playersClub1.length && qtdPlayersToClub === playersClub2.length)
+  }, [qtdPlayersToClub, playersClub1.length, playersClub2.length])
 
   return (
     <Background color={theme.colors.gray[700]}>
@@ -73,7 +100,7 @@ export function PlayersToGame() {
             />
           </View>
         </ScrollView>
-        <Button style={{ height: 48 }}>
+        <Button style={{ height: 48 }} disabled={disabledClub} onPress={handleCreateGame}>
           <Button.Title>Iniciar Jogo</Button.Title>
         </Button>
       </Background.Padding>

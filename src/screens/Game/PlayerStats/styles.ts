@@ -31,6 +31,7 @@ export const styles = StyleSheet.create({
   image: {
     height: 12,
     width: 12,
+    tintColor: theme.colors.white,
   },
   touchPlus: {
     height: 10,

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { Feather } from '@expo/vector-icons'
 
@@ -7,30 +7,35 @@ import { styles } from "./styles";
 import soccerBall from '../../../assets/soccerball.png'
 import shoots from '../../../assets/shoots.png'
 
-export function PlayersStats() {
-  const [goal, setGoal] = useState(0)
-  const [assist, setAssist] = useState(0)
+interface Props {
+  idPlayer: string
+  name: string
+  goal: number
+  assistence: number
+  onChangeStats: (data: { goal: number, assistence: number, idPlayer: string }) => void
+}
 
+export function PlayersStats({ idPlayer, name, goal, assistence, onChangeStats }: Props) {
   const handlePlusGoal = useCallback(() => {
-    setGoal(state => state + 1)
-  }, [])
+    onChangeStats({ idPlayer, goal: goal + 1, assistence })
+  }, [idPlayer, goal, assistence, onChangeStats])
   const handleMinusGoal = useCallback(() => {
     if(goal - 1 >= 0) {
-      setGoal(state => state - 1)
+      onChangeStats({ idPlayer, goal: goal - 1, assistence })
     }
-  }, [goal])
+  }, [idPlayer, goal, assistence, onChangeStats])
   const handlePlusAssist = useCallback(() => {
-    setAssist(state => state + 1)
-  }, [])
+    onChangeStats({ idPlayer, goal, assistence: assistence + 1 })
+  }, [idPlayer, goal, assistence, onChangeStats])
   const handleMinusAssist = useCallback(() => {
-    if(assist - 1 >= 0) {
-      setAssist(state => state - 1)
+    if(assistence - 1 >= 0) {
+      onChangeStats({ idPlayer, goal, assistence: assistence - 1 })
     }
-  }, [assist])
+  }, [idPlayer, goal, assistence, onChangeStats])
 
   return (
     <View style={styles.container}>
-      <Text style={styles.name} numberOfLines={1}>Nome</Text>
+      <Text style={styles.name} numberOfLines={1}>{ name }</Text>
       <View style={styles.content}>
         <Image source={soccerBall} style={styles.image} />
         <Text style={styles.value}>{ goal }</Text>
@@ -43,7 +48,7 @@ export function PlayersStats() {
           </TouchableOpacity>
         </View>
         <Image source={shoots} style={styles.image} />
-        <Text style={styles.value}>{ assist }</Text>
+        <Text style={styles.value}>{ assistence }</Text>
         <View style={styles.action}>
           <TouchableOpacity activeOpacity={0.8} style={styles.touchPlus} onPress={handlePlusAssist}>
             <Feather name="plus" size={10} color={theme.colors.white} />

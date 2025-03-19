@@ -1,4 +1,4 @@
-import { PlayerWithClubResume } from "./players"
+import { PlayerInGame, PlayerWithClub, PlayerWithClubResume } from "./players"
 import { StatsWithPlayer } from "./stats"
 
 export type StatusChampionship = 'current' | 'final'
@@ -10,6 +10,16 @@ export interface Championship {
   qtdPlayersForClub: number
   players: PlayerWithClubResume[]
   playersReserve: string[]
+  stats: StatsWithPlayer[]
+}
+
+export interface ChampionshipComplete {
+  id: string
+  date: string
+  status: StatusChampionship
+  qtdPlayersForClub: number
+  players: PlayerWithClub[]
+  playersReserve: PlayerWithClub[]
   stats: StatsWithPlayer[]
 }
 

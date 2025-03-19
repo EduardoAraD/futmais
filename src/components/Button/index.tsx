@@ -18,12 +18,17 @@ type ButtonProps = TouchableOpacityProps & {
   type?: OptionButtonType
 }
 
-function Button({ children, type = 'PRIMARY', style, isLoading = false, ...rest }: ButtonProps) {
+function Button({ children, disabled, type = 'PRIMARY', style, isLoading = false, ...rest }: ButtonProps) {
   return (
     <TouchableOpacity
-      style={[styles.container, type === 'SECUNDARY' && styles.containerSecundary, style]}
+      style={[
+        styles.container,
+        type === 'SECUNDARY' && styles.containerSecundary,
+        disabled && { opacity: 0.6 },
+        style
+      ]}
       activeOpacity={0.8}
-      disabled={isLoading}
+      disabled={isLoading || disabled}
       testID="touch"
       {...rest}
     >

@@ -7,7 +7,12 @@ import { styles } from "./styles";
 import boalAnimation from '../../assets/boal.json'
 import club1 from '../../assets/club1.png'
 
-export function Score() {
+interface Props {
+  goalClub1: number
+  goalClub2: number
+}
+
+export function Score({ goalClub1, goalClub2 }: Props) {
   return (
     <View style={styles.container}>
       <View style={[styles.triangle, styles.triangleLeft]} />
@@ -20,7 +25,9 @@ export function Score() {
         <Image source={club1} style={styles.image} />
         <View style={[styles.line, styles.rotateLeft]} />
         <View style={styles.score}>
-          <Text style={[styles.textScore, { marginRight: -8 }]}>8</Text>
+          <Text style={[styles.textScore, { marginRight: -8 }]}>
+            { goalClub1 }
+          </Text>
           <LottieView
             autoPlay={false}
             style={{
@@ -29,7 +36,9 @@ export function Score() {
             }}
             source={boalAnimation}
           />
-          <Text style={[styles.textScore, { marginLeft: -8 }]}>8</Text>
+          <Text style={[styles.textScore, { marginLeft: -8 }]}>
+            { goalClub2 }
+          </Text>
         </View>
         <View style={[styles.line, styles.rotateRight]} />
         <Image source={club1} style={styles.image} />

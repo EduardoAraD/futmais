@@ -12,6 +12,7 @@ import {
 import { Oxanium_700Bold, Oxanium_500Medium } from '@expo-google-fonts/oxanium'
 import { Routes } from './src/routes';
 import theme from './src/theme';
+import { ProvidersApp } from './src/context';
 
 export default function App() {
   const [loaded, error] = useFonts({
@@ -36,7 +37,9 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-      <Routes />
+      <ProvidersApp>
+        <Routes />
+      </ProvidersApp>
     </View>
   );
 }

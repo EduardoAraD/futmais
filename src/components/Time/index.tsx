@@ -76,7 +76,9 @@ export function Time({ status }: TimeProps) {
     <View style={styles.container}>
       <View style={styles.timeView}>
         <Text style={styles.timer}>{secundsToStringMinuteSecunds(currentTime)}</Text>
-        <Text style={styles.timeExtra}>+ {secundsToStringMinuteSecunds(timeExtra)}</Text>
+        { timeExtra > 0 && (
+          <Text style={styles.timeExtra}>+ {secundsToStringMinuteSecunds(timeExtra)}</Text>
+        )}
       </View>
       <View style={styles.bar}>
         <Text style={styles.textBar}>{secundsToStringMinuteSecunds(timeFinal)}</Text>

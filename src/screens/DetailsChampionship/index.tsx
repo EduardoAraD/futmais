@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { RouteProp, useRoute } from "@react-navigation/native";
 
+import { useChampionship } from "../../hook/useChampionship";
+
 import { ChampionshipResume, emptyChampionship } from "../../model/chempionship";
 import { Club } from "../../model/club";
-import { Player, PlayerWithClub } from "../../model/players";
+import { Player, PlayerInGame, PlayerWithClub } from "../../model/players";
 import { Background } from "../../components/Background";
 import { InformationDetailsChampionship } from "./Information";
 import { OptionLine } from "../../components/OptionLine";
@@ -23,6 +25,7 @@ type ParamList = {
 
 export function DetailsChampionship() {
   const { idChampionship } = useRoute<RouteProp<ParamList, 'Details'>>().params
+  const { createChampionship } = useChampionship()
 
   const options: string[] = ['Informações', 'Jogadores']
   const [option, setOption] = useState(options[0])
@@ -42,13 +45,33 @@ export function DetailsChampionship() {
       const listPlayers = await getAllPlayersServices()
       setAllPlayers(listPlayers)
       setPlayers(championshipResponse.playersClub)
-      setChampionship({
-        id: championshipResponse.id,
-        date: championshipResponse.date,
-        status: championship.status,
-        qtdPlayersForClub: championship.qtdPlayersForClub,
-      })
       setPlayersReserve(championshipResponse.playersReserve)
+
+      const playersClub: PlayerInGame[] = championshipResponse.playersClub.map(item => {
+        const stats = championshipResponse.stats.find(item => item.idPlayer === item.idPlayer)
+        if(stats === undefined) {
+          return { player: item, goal: 0, assistence: 0 }
+        } else {
+          return { player: item, goal: stats.goal, assistence: stats.assistence }
+        }
+      })
+      const playersReserveClub: PlayerInGame[] = championshipResponse.playersReserve.map(item => {
+        const stats = championshipResponse.stats.find(item => item.idPlayer === item.idPlayer)
+        if(stats === undefined) {
+          return { player: { ...item, clubIndex: -1 }, goal: 0, assistence: 0 }
+        } else {
+          return { player: { ...item, clubIndex: -1 }, goal: stats.goal, assistence: stats.assistence }
+        }
+      })
+
+      createChampionship({
+        id: idChampionship,
+        date: championshipResponse.date,
+        status: championshipResponse.status,
+        qtdPlayersForClub: championshipResponse.qtdPlayersForClub,
+        players: playersClub,
+        playersReserve: playersReserveClub,
+      })
     }
     
   }, [idChampionship])

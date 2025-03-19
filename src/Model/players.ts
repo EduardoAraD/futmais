@@ -17,6 +17,12 @@ export interface PlayerWithClub extends Player {
   clubIndex: number
 }
 
+export interface PlayerInGame {
+  player: Player
+  goal: number
+  assistence: number
+}
+
 export const emptyPlayer: Player = {
   id: '-1',
   name: '',
