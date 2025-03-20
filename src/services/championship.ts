@@ -3,8 +3,9 @@ import * as Crypto from 'expo-crypto'
 import { Championship } from "../model/chempionship"
 import { Player, PlayerWithClub, PlayerWithClubResume } from '../model/players'
 import { Club } from '../model/club'
-import { getAllChampionshipAS, getChampionshipAS, getPlayersChampionshipAS, saveNewChampionshipAS, savePlayersChampionshipAS } from '../lib/asyncstorage/championship'
+import { getAllChampionshipAS, getChampionshipAS, getPlayersChampionshipAS, saveNewChampionshipAS, savePlayersChampionshipAS, saveStatsChampionshipAS } from '../lib/asyncstorage/championship'
 import { getListPlayersAS } from '../lib/asyncstorage/player'
+import { StatsWithPlayer } from '../model/stats'
 
 export async function getAllChampionshipsServices() {
   return await getAllChampionshipAS()
@@ -14,8 +15,8 @@ export async function createNewChampionshipServices(
   { clubs, qtdPlayersForClub }: { clubs: Club[], qtdPlayersForClub: number }
 ) {
   const players: PlayerWithClubResume[] = []
-  clubs.forEach(club => {
-    club.players.forEach((item, index) => {
+  clubs.forEach((club, index) => {
+    club.players.forEach((item) => {
       players.push({ idPlayer: item.id, clubIndex: index })
     })
   })
@@ -73,4 +74,10 @@ export async function addPlayersReserveChampionshipServices(
     playersReserve: [...players.playersReserve, ...idPlayers],
     idChampionship,
   })
+}
+
+export async function saveStatsChampionshipServices(
+  { stats, idChampionship }: { stats: StatsWithPlayer[], idChampionship: string }
+) {
+  await saveStatsChampionshipAS({ stats, idChampionship })
 }

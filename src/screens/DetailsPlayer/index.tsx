@@ -96,6 +96,7 @@ export function DetailsPlayer() {
             assistence={stats.assistence}
             mvp={stats.mvp}
             pp={stats.pp}
+            sumStars={stats.sumStars}
             loading={loading}
           />
           <OptionLine
@@ -113,6 +114,7 @@ export function DetailsPlayer() {
               goal={stats.goal}
               assistence={stats.assistence}
               numberChampionship={stats.numberChampionship}
+              sumStars={stats.sumStars}
               avarageStars={stats.sumStars / stats.numberChampionship}
               mvp={stats.mvp}
               pp={stats.pp}

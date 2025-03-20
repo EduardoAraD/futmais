@@ -15,21 +15,25 @@ import theme from "../../theme";
 import { styles } from "./styles";
 import { TabNavigatorRoutesProps } from "../../routes/tab.routes";
 
-export interface PlayersToGameRouteParams {
-  players: PlayerWithClub[]
-  qtdPlayersToClub: number
-}
-type ParamList = {
-  Players: PlayersToGameRouteParams
-}
-
 export function PlayersToGame() {
-  const { players, qtdPlayersToClub } = useRoute<RouteProp<ParamList, 'Players'>>().params
   const { navigate } = useNavigation<TabNavigatorRoutesProps>()
-  const { createGameCurrent } = useChampionship()
+  const { createGameCurrent, championship } = useChampionship()
 
   const [playersClub1, setPlayersClub1] = useState<Player[]>([])
   const [playersClub2, setPlayersClub2] = useState<Player[]>([])
+
+  const { players, qtdPlayersToClub }: { players: PlayerWithClub[], qtdPlayersToClub: number } = useMemo(() => {
+    if(championship !== null) {
+      return {
+        players: [...championship.players, ...championship.playersReserve],
+        qtdPlayersToClub: championship.qtdPlayersForClub,
+      }
+    }
+    return {
+      players: [],
+      qtdPlayersToClub: 0,
+    }
+  }, [championship])
 
   const handleAddClub1 = useCallback((playersChoose: Player[]) => {
     setPlayersClub1(playersChoose)

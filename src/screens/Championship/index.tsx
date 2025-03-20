@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { FlatList, RefreshControl, View } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 

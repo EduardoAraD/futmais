@@ -1,36 +1,44 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import StarRating from 'react-native-star-rating-widget'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 
+import { Stats } from '../../model/stats'
+import { Button } from '../Button'
+import { ButtonSwitch } from '../ButtonSwitch'
+import { LineBackground } from '../LineBackground'
 import { ModalBase } from '../ModalBase'
 
 import { styles } from './styles'
-import { LineBackground } from '../LineBackground'
 import theme from '../../theme'
-import { Button } from '../Button'
 
 interface ModalDefinedStarsProps {
   visible: boolean
   onClose(): void
-  onUpdateStar(star: number): void
+  stats: Stats
+  onUpdateData(data: { star: number, mvp: boolean, pp: boolean }): void
 }
 
 export function ModalDefinedStars({
   visible,
   onClose,
-  onUpdateStar,
+  stats,
+  onUpdateData,
 }: ModalDefinedStarsProps) {
   const [star, setStar] = useState(0)
-
-  function handleUpdateValueStar(starValue: number) {
-    setStar(starValue)
-  }
+  const [mvpPlayer, setMvpPlayer] = useState(false)
+  const [ppPlayer, setPpPlayer] = useState(false)
 
   const handleConfirmadStar = useCallback(() => {
-    onUpdateStar(star)
+    onUpdateData({ star, mvp: mvpPlayer, pp: ppPlayer })
     onClose()
-  }, [onClose, onUpdateStar, star])
+  }, [onClose, star, mvpPlayer, ppPlayer, onUpdateData])
+
+  useEffect(() => {
+    setStar(stats.sumStars)
+    setMvpPlayer(stats.mvp === 1)
+    setPpPlayer(stats.pp === 1)
+  }, [stats])
 
   return (
     <ModalBase visible={visible} onClose={onClose}>
@@ -44,25 +52,25 @@ export function ModalDefinedStars({
         <View style={styles.content}>
           <View style={styles.statsView}>
             <Text style={styles.subtitle}>Gols</Text>
-            <Text style={styles.value}>4</Text>
+            <Text style={styles.value}>{ stats.goal }</Text>
           </View>
           <View style={styles.statsView}>
             <Text style={styles.subtitle}>Assistência</Text>
-            <Text style={styles.value}>4</Text>
+            <Text style={styles.value}>{ stats.assistence }</Text>
           </View>
           <View style={styles.statsView}>
             <Text style={styles.subtitle}>Melhor do Racha</Text>
-            <Text style={styles.value}>SIM</Text>
+            <ButtonSwitch value={mvpPlayer} onChange={setMvpPlayer} />
           </View>
           <View style={styles.statsView}>
             <Text style={styles.subtitle}>Pior do Racha</Text>
-            <Text style={styles.value}>SIM</Text>
+            <ButtonSwitch value={ppPlayer} onChange={setPpPlayer} />
           </View>
         </View>
         <View style={{ alignItems: 'center' }}>
           <StarRating
             rating={star}
-            onChange={handleUpdateValueStar}
+            onChange={setStar}
             starSize={30}
           />
         </View>

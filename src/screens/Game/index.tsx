@@ -1,7 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 
+import { TabNavigatorRoutesProps } from "../../routes/tab.routes";
+import { useChampionship } from "../../hook/useChampionship";
+
+import { PlayerInGame } from "../../model/players";
 import { Background } from "../../components/Background";
 import { Button } from "../../components/Button";
 import { PlayersStats } from "./PlayerStats";
@@ -10,11 +15,10 @@ import { Score } from "../../components/Score";
 
 import theme from "../../theme";
 import { styles } from "./styles";
-import { useChampionship } from "../../hook/useChampionship";
-import { PlayerInGame } from "../../model/players";
 
 export function Game() {
-  const { gameCurrent } = useChampionship()
+  const { navigate } = useNavigation<TabNavigatorRoutesProps>()
+  const { gameCurrent, endGameCurrent } = useChampionship()
   const [statusTime, setStatusTime] = useState<StatusTime>('to start')
   const [playersCLub1, setPlayersClub1] = useState<PlayerInGame[]>([])
   const [playersCLub2, setPlayersClub2] = useState<PlayerInGame[]>([])
@@ -51,10 +55,19 @@ export function Game() {
 
   const loadPlayers = useCallback(() => {
     if(gameCurrent !== null) {
-      setPlayersClub1(gameCurrent.club1)
-      setPlayersClub2(gameCurrent.club2)
-    }    
+      setPlayersClub1(gameCurrent.club1.map(item => ({...item, goal: 0, assistence: 0 })))
+      setPlayersClub2(gameCurrent.club2.map(item => ({...item, goal: 0, assistence: 0 })))
+    }
   }, [gameCurrent])
+
+  const saveGame = useCallback(() => {
+    const statsClub = [...playersCLub1, ...playersCLub2].filter(item =>
+      item.goal > 0 || item.assistence > 0
+    )
+
+    endGameCurrent(statsClub)
+    navigate('rachaTab')
+  }, [playersCLub1, playersCLub2])
 
   useEffect(() => {
     loadPlayers()
@@ -121,7 +134,7 @@ export function Game() {
               </TouchableOpacity>
             </View>
 
-            <Button style={{ height: 48 }}>
+            <Button style={{ height: 48 }} onPress={saveGame}>
               <Button.Title>FINALIZAR JOGO</Button.Title>
             </Button>
           </View>

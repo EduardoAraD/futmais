@@ -3,9 +3,9 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 
 import { useChampionship } from "../../hook/useChampionship";
 
-import { ChampionshipResume, emptyChampionship } from "../../model/chempionship";
+import { ChampionshipComplete, ChampionshipResume, emptyChampionship } from "../../model/chempionship";
 import { Club } from "../../model/club";
-import { Player, PlayerInGame, PlayerWithClub } from "../../model/players";
+import { Player, PlayerWithClub } from "../../model/players";
 import { Background } from "../../components/Background";
 import { InformationDetailsChampionship } from "./Information";
 import { OptionLine } from "../../components/OptionLine";
@@ -46,34 +46,28 @@ export function DetailsChampionship() {
       setAllPlayers(listPlayers)
       setPlayers(championshipResponse.playersClub)
       setPlayersReserve(championshipResponse.playersReserve)
-
-      const playersClub: PlayerInGame[] = championshipResponse.playersClub.map(item => {
-        const stats = championshipResponse.stats.find(item => item.idPlayer === item.idPlayer)
-        if(stats === undefined) {
-          return { player: item, goal: 0, assistence: 0 }
-        } else {
-          return { player: item, goal: stats.goal, assistence: stats.assistence }
-        }
-      })
-      const playersReserveClub: PlayerInGame[] = championshipResponse.playersReserve.map(item => {
-        const stats = championshipResponse.stats.find(item => item.idPlayer === item.idPlayer)
-        if(stats === undefined) {
-          return { player: { ...item, clubIndex: -1 }, goal: 0, assistence: 0 }
-        } else {
-          return { player: { ...item, clubIndex: -1 }, goal: stats.goal, assistence: stats.assistence }
-        }
-      })
-
-      createChampionship({
+      
+      const playersReserveClub: PlayerWithClub[] = championshipResponse.playersReserve.map(
+        item => ({ ...item, clubIndex: -1 })
+      )
+      const championshipComplete: ChampionshipComplete = {
         id: idChampionship,
         date: championshipResponse.date,
         status: championshipResponse.status,
         qtdPlayersForClub: championshipResponse.qtdPlayersForClub,
-        players: playersClub,
+        players: championshipResponse.playersClub,
         playersReserve: playersReserveClub,
+        stats: championshipResponse.stats,
+      }
+
+      setChampionship({
+        id: championshipComplete.id,
+        date: championshipComplete.date,
+        status: championshipComplete.status,
+        qtdPlayersForClub: championshipComplete.qtdPlayersForClub,
       })
+      createChampionship(championshipComplete)
     }
-    
   }, [idChampionship])
 
   useEffect(() => {
@@ -95,7 +89,7 @@ export function DetailsChampionship() {
   }, [allPlayers, allPlayersChampionship])
 
   const clubs: Club[] = useMemo(() => {
-    let thanId = championship.qtdPlayersForClub
+    let thanId = 0
     players.forEach(item => {
       if(thanId < item.clubIndex) { thanId = item.clubIndex }
     })
@@ -127,11 +121,7 @@ export function DetailsChampionship() {
             onConfirmPlayers={addPlayersReserve}
           />
         ) : (
-          <InformationDetailsChampionship
-            clubs={clubs}
-            players={allPlayersChampionship}
-            qtdPlayersToClub={championship.qtdPlayersForClub}
-          />
+          <InformationDetailsChampionship clubs={clubs} />
         )}
       </Background.Padding>
     </Background>

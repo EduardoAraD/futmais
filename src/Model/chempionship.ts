@@ -1,4 +1,4 @@
-import { PlayerInGame, PlayerWithClub, PlayerWithClubResume } from "./players"
+import { PlayerWithClub, PlayerWithClubResume } from "./players"
 import { StatsWithPlayer } from "./stats"
 
 export type StatusChampionship = 'current' | 'final'
