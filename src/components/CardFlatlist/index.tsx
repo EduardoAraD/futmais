@@ -12,11 +12,15 @@ interface Props extends TouchableOpacityProps {
   onPress: () => void
 }
 
-export function CardFlatlist({ name, onPress, style, ...rest }: Props) {
+export function CardFlatlist({ name, status = 'current', onPress, style, ...rest }: Props) {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      style={[styles.container, style]}
+      style={[
+        styles.container,
+        status === 'final' && styles.secundary,
+        style
+      ]}
       onPress={onPress}
       {...rest}
     >

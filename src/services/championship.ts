@@ -1,9 +1,9 @@
 import * as Crypto from 'expo-crypto'
 
-import { Championship } from "../model/chempionship"
+import { Championship, ChampionshipResume } from "../model/chempionship"
 import { Player, PlayerWithClub, PlayerWithClubResume } from '../model/players'
 import { Club } from '../model/club'
-import { getAllChampionshipAS, getChampionshipAS, getPlayersChampionshipAS, saveNewChampionshipAS, savePlayersChampionshipAS, saveStatsChampionshipAS } from '../lib/asyncstorage/championship'
+import { getAllChampionshipAS, getChampionshipAS, getPlayersChampionshipAS, saveAllChampionshipAS, saveNewChampionshipAS, savePlayersChampionshipAS, saveStatsChampionshipAS } from '../lib/asyncstorage/championship'
 import { getListPlayersAS } from '../lib/asyncstorage/player'
 import { StatsWithPlayer } from '../model/stats'
 
@@ -79,5 +79,16 @@ export async function addPlayersReserveChampionshipServices(
 export async function saveStatsChampionshipServices(
   { stats, idChampionship }: { stats: StatsWithPlayer[], idChampionship: string }
 ) {
+  await saveStatsChampionshipAS({ stats, idChampionship })
+}
+
+export async function finishChampionship(
+  { stats, idChampionship }: { stats: StatsWithPlayer[], idChampionship: string }
+) {
+  const listChampions = await getAllChampionshipsServices()
+  const newList: ChampionshipResume[] = listChampions.map(item => item.id === idChampionship ? 
+    { ...item, status: 'final' } : item
+  )
+  await saveAllChampionshipAS({ championships: newList })
   await saveStatsChampionshipAS({ stats, idChampionship })
 }

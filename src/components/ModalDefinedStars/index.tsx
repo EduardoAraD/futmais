@@ -34,6 +34,16 @@ export function ModalDefinedStars({
     onClose()
   }, [onClose, star, mvpPlayer, ppPlayer, onUpdateData])
 
+  const handleChangeMvp = useCallback((value: boolean) => {
+    setPpPlayer(false)
+    setMvpPlayer(value)
+  }, [])
+
+  const handleChangePP = useCallback((value: boolean) => {
+    setPpPlayer(value)
+    setMvpPlayer(false)
+  }, [])
+
   useEffect(() => {
     setStar(stats.sumStars)
     setMvpPlayer(stats.mvp === 1)
@@ -60,11 +70,11 @@ export function ModalDefinedStars({
           </View>
           <View style={styles.statsView}>
             <Text style={styles.subtitle}>Melhor do Racha</Text>
-            <ButtonSwitch value={mvpPlayer} onChange={setMvpPlayer} />
+            <ButtonSwitch value={mvpPlayer} onChange={handleChangeMvp} />
           </View>
           <View style={styles.statsView}>
             <Text style={styles.subtitle}>Pior do Racha</Text>
-            <ButtonSwitch value={ppPlayer} onChange={setPpPlayer} />
+            <ButtonSwitch value={ppPlayer} onChange={handleChangePP} />
           </View>
         </View>
         <View style={{ alignItems: 'center' }}>

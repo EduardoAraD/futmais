@@ -15,4 +15,7 @@ export const styles = StyleSheet.create({
     color: theme.colors.white,
     flex: 1,
   },
+  secundary: {
+    backgroundColor: theme.colors.gray[500],
+  }
 })

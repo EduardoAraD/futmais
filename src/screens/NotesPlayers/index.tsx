@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { FlatList, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
@@ -6,7 +6,7 @@ import { ChampionshipRoutesProps } from '../../routes/routesStack/championship.r
 import { useChampionship } from '../../hook/useChampionship'
 
 import { Player } from '../../model/players'
-import { emptyStats, Stats } from '../../model/stats'
+import { emptyStats, Stats, StatsWithPlayer } from '../../model/stats'
 import { Background } from '../../components/Background'
 import { Button } from '../../components/Button'
 import { CardNotesPlayer } from '../../components/CardNotesPlayer'
@@ -14,6 +14,7 @@ import { ModalConfirmad } from '../../components/ModalConfirmad'
 import { TitleFlatlist } from '../../components/TitleFlatlist'
 import { TouchBackWithTitle } from '../../components/TouchBackWithTitle'
 
+import { finishChampionship } from '../../services/championship'
 import theme from '../../theme'
 
 interface PlayerStats {
@@ -27,43 +28,46 @@ export function NotesPlayers() {
 
   const [listPlayers, setListPlayers] = useState<PlayerStats[]>([])
   const [showModalConfirmad, setShowModalConfirmad] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const handleUpdateStarPlayer = useCallback(
-    ({ star, idPlayer }: { star: number, idPlayer: string }) => {
-      setListPlayers(state => state.map(item => item.player.id === idPlayer ?
-        {
-          ...item,
-          stats: {
-            ...item.stats,
-            sumStars: star,
-          }
-         } : { ...item }
-      ))
-    },
-    [],
-  )
+  const handleUpdateStatsPlayer = useCallback((
+    {star, mvp, pp, idPlayer}: { star: number, mvp: boolean, pp: boolean, idPlayer: string}
+  ) => {
+    setListPlayers(state => state.map(item => item.player.id === idPlayer ?
+      {
+        ...item,
+        stats: {
+          ...item.stats,
+          sumStars: star,
+          mvp: mvp ? 1 : 0,
+          pp: pp ? 1 : 0
+        }
+      } : {
+        ...item,
+        stats: {
+          ...item.stats,
+          mvp: mvp ? 0: item.stats.mvp,
+          pp: pp ? 0 : item.stats.pp
+        }
+      }
+    ))
+  }, [])
 
-  const handleUpdateMVPPlayer = useCallback(
-    ({ mvp, idPlayer }: { mvp: boolean, idPlayer: string }) => {
-      setListPlayers(state => state.map(item => item.player.id === idPlayer ?
-        { ...item, stats: { ...item.stats, mvp: mvp ? 1 : 0 } } :
-        { ...item, stats: { ...item.stats, mvp: 0 } }
-      ))
-    }, [],
-  )
-
-  const handleUpdatePPPlayer = useCallback(
-    ({ pp, idPlayer }: { pp: boolean, idPlayer: string }) => {
-      setListPlayers(state => state.map(item => item.player.id === idPlayer ?
-        { ...item, stats: { ...item.stats, pp: pp ? 1 : 0 } } :
-        { ...item, stats: { ...item.stats, pp: 0 } }
-      ))
-    }, [],
-  )
-
-  function handleCloseRacha() {
+  const handleFinishChampionship = useCallback(async () => {
+    if(championship !== null) {
+      setLoading(true)
+      const stats: StatsWithPlayer[] = listPlayers.map(item => ({
+        idPlayer: item.player.id, ...item.stats,
+      }))
+      await finishChampionship({ stats, idChampionship: championship.id })
+      setLoading(false)
+    }
     navigate('championship')
-  }
+  }, [championship, listPlayers])
+
+  const disabled = useMemo(() => {
+    return listPlayers.filter(item => item.stats.mvp === 1 || item.stats.pp === 1).length < 2
+  }, [listPlayers])
 
   const loadPlayers = useCallback(() => {
     if(championship !== null) {
@@ -103,14 +107,18 @@ export function NotesPlayers() {
             <CardNotesPlayer
               name={item.player.name}
               stats={item.stats}
-              onUpdateMVP={(mvp) => handleUpdateMVPPlayer({ mvp, idPlayer: item.player.id })}
-              onUpdatePP={(pp) => handleUpdatePPPlayer({ pp, idPlayer: item.player.id })}
-              onUpdateStar={(star) => handleUpdateStarPlayer({ star, idPlayer: item.player.id })}
+              onUpdateStatsPlayer={(data) => handleUpdateStatsPlayer(
+                {...data, idPlayer: item.player.id }
+              )}
             />
           )}
           ItemSeparatorComponent={() => <View style={{ height: 6 }} />}
         />
-        <Button onPress={() => setShowModalConfirmad(true)}>
+        <Button
+          onPress={() => setShowModalConfirmad(true)}
+          disabled={disabled}
+          isLoading={loading}
+        >
           <Button.Title>Finalizar Racha</Button.Title>
         </Button>
         <ModalConfirmad
@@ -119,7 +127,7 @@ export function NotesPlayers() {
           title="Finalizar Racha"
           text="Deseja finalizar o racha?"
           dualOption
-          onConfirmad={handleCloseRacha}
+          onConfirmad={handleFinishChampionship}
         />
       </Background.Padding>
     </Background>

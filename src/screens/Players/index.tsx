@@ -57,7 +57,7 @@ export function Players() {
               <CardFlatlist
                 name={item.name}
                 onPress={() => handleGoDetailsPlayer(item.id)}
-                status='final'
+                status='current'
               />
             )}
             ItemSeparatorComponent={() => <View style={{ height: 6 }} />}

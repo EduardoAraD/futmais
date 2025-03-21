@@ -1,37 +1,41 @@
 import { useCallback, useState } from 'react'
-import { TouchableOpacity, View, Text } from 'react-native'
+import { TouchableOpacity, View, Text, Image } from 'react-native'
 
 import { Stats } from '../../model/stats'
 import { ModalDefinedStars } from '../ModalDefinedStars'
 import { Stars } from '../Stars'
 
 import { styles } from './styles'
+import starPlayer from '../../assets/best-player.png'
+import deflatedBall from '../../assets/soccer-ball-emoji.png'
 
 interface CardNotesProps {
   name: string
   stats: Stats
-  onUpdateStar(star: number): void
-  onUpdateMVP(value: boolean): void
-  onUpdatePP(value: boolean): void
+  onUpdateStatsPlayer(data: { star: number, mvp: boolean, pp: boolean }): void
 }
 
 export function CardNotesPlayer(
-  { onUpdateStar, name, stats, onUpdateMVP, onUpdatePP }: CardNotesProps)
+  { onUpdateStatsPlayer, name, stats }: CardNotesProps)
 {
   const [showModal, setShowModal] = useState(false)
 
   const handleUpdateData = useCallback(
     ({ star, mvp, pp }: { star: number, mvp: boolean, pp: boolean }) => {
-      onUpdateStar(star)
-      onUpdateMVP(mvp)
-      onUpdatePP(pp)
-    }, [onUpdateStar, onUpdateMVP, onUpdatePP]
+      onUpdateStatsPlayer({ star, mvp, pp })
+    }, [onUpdateStatsPlayer]
   )
 
   return (
     <>
       <TouchableOpacity style={styles.card} activeOpacity={0.8} onPress={() => setShowModal(true)}>
         <View style={styles.content}>
+          {stats.mvp === 1 && (
+            <Image source={starPlayer} style={styles.image} />
+          )}
+          {stats.pp === 1 && (
+            <Image source={deflatedBall} style={styles.image} />
+          )}
           <Text style={styles.title} numberOfLines={1}>{ name }</Text>
           <Stars note={stats.sumStars} hasAllStars={false} style={{ justifyContent: 'flex-end'}} />
         </View>

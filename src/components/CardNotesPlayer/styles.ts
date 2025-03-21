@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 12,
     gap: 6,
     overflow: 'hidden',
+    height: 48,
   },
   content: {
     flexDirection: 'row',
@@ -21,4 +22,13 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     color: theme.colors.primary,
   },
+  image: {
+    height: 140,
+    width: 140,
+    objectFit: 'contain',
+    top: -45,
+    position: 'absolute',
+    opacity: 0.3,
+    right: 10,
+  }
 })
