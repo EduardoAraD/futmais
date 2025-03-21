@@ -1,3 +1,5 @@
+import { Stats } from "./stats"
+
 export type RolePlayer = 'Goalkeeper' | 'Player'
 
 export interface Player {
@@ -21,6 +23,11 @@ export interface PlayerInGame {
   player: Player
   goal: number
   assistence: number
+}
+
+export interface PlayerWithStats {
+  player: Player
+  stats: Stats
 }
 
 export const emptyPlayer: Player = {

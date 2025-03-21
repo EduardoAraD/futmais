@@ -3,7 +3,7 @@ import { FlatList, RefreshControl, View } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import { ChampionshipRoutesProps } from "../../routes/routesStack/championship.routes";
-import { ChampionshipResume } from "../../model/chempionship";
+import { ChampionshipResume, StatusChampionship } from "../../model/chempionship";
 import { Background } from "../../components/Background";
 import { CardFlatlist } from "../../components/CardFlatlist";
 import { Title } from "../../components/Title";
@@ -31,8 +31,14 @@ export function Championship() {
     navigate('selectedPlayers')
   }, [])
 
-  const handleGoDetailsChampionship = useCallback((idChampionship: string) => {
-    navigate('detailsChampionship', { idChampionship })
+  const handleGoProxScreen = useCallback((
+    { idChampionship, status } : { idChampionship: string, status: StatusChampionship }
+  ) => {
+    if(status === 'current') {
+      navigate('detailsChampionship', { idChampionship })
+    } else {
+      navigate('statsChampionship', { idChampionship })
+    }
   }, [])
 
   const loadChampionship = useCallback(async () => {
@@ -60,7 +66,7 @@ export function Championship() {
             <CardFlatlist
               name={`Racha - ${new Date(item.date).toLocaleDateString()}`}
               status={item.status}
-              onPress={() => handleGoDetailsChampionship(item.id)}
+              onPress={() => handleGoProxScreen({ idChampionship: item.id, status: item.status })}
             />
           )}
           ItemSeparatorComponent={() => <View style={{ height: 6 }} />}

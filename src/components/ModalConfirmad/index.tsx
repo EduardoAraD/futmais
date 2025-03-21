@@ -28,7 +28,7 @@ export function ModalConfirmad({
   const handleConfirmed = useCallback(() => {
     onConfirmad()
     onClose()
-  }, [])
+  }, [onConfirmad, onClose])
 
   return (
     <ModalBase visible={visible} onClose={onClose}>

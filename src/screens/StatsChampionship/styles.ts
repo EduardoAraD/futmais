@@ -5,9 +5,8 @@ export const styles = StyleSheet.create({
   content: {
     flexDirection: 'row',
     width: '100%',
+    justifyContent: 'space-between',
     marginLeft: 20,
-    marginTop: -20,
-    marginBottom: -10,
   },
   infoPlayer: {
     justifyContent: 'space-around',
@@ -19,9 +18,8 @@ export const styles = StyleSheet.create({
     color: theme.colors.white,
   },
   image: {
-    height: 220,
-    width: 220,
-    marginLeft: -80,
+    height: 180,
+    width: 180,
   },
   container: {
     flex: 1,
@@ -32,7 +30,12 @@ export const styles = StyleSheet.create({
     borderTopEndRadius: 30,
   },
   scroll: {
-    paddingTop: 40,
     paddingBottom: 40,
+  },
+  titleFlat: {
+    paddingTop: 30,
+    fontFamily: theme.fonts.rajdhani.semibold,
+    fontSize: 14,
+    color: theme.colors.white,
   },
 })

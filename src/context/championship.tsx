@@ -26,7 +26,6 @@ export const ChampionshipContext = createContext<ChampionshipContextProps>(
 export function ChampionshipProvider({ children }: ChampionshipProviderProps) {
   const [championship, setChampionship] = useState<ChampionshipComplete | null>(null)
   const [gameCurrent, setGameCurrent] = useState<GameCurrent | null>(null)
-  // const [loading, setLoading] = useState(true)
 
   const createGameCurrent = useCallback((game: GameCurrent) => {
     setGameCurrent(game);
@@ -54,10 +53,12 @@ export function ChampionshipProvider({ children }: ChampionshipProviderProps) {
             mvp: 0,
             pp: 0,
             sumStars: 0,
+            games: 1,
           })
         } else {
           stats[find].assistence += item.assistence,
           stats[find].goal += item.goal
+          stats[find].games += 1
         }
       })
 

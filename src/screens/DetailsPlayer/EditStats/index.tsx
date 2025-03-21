@@ -11,14 +11,15 @@ interface Props extends Stats {
 }
 
 export function EditStats({
-  goal, assistence, avarageStars, mvp, pp, numberChampionship
+  goal, assistence, avarageStars, mvp, pp, numberChampionship, games
 }: Props) {
   return (
     <View style={styles.container}>
-      <LineStats name="GOLS" value={goal} />
+      <LineStats name="Gols" value={goal} />
       <LineStats name="Assistências" value={assistence} />
       <LineStats name="Melhor do Racha (MVP)" value={mvp} />
       <LineStats name="Perna de Pau (PP)" value={pp} />
+      <LineStats name="Jogos" value={games} />
       <LineStats name="Rachas presentes" value={numberChampionship} />
       <LineStats name="Nota Média" value="2" star={avarageStars} />
     </View>

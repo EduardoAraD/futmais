@@ -4,36 +4,34 @@ import { Stats } from "../../model/stats";
 import { Loading } from "../Loading";
 
 import { styles } from "./styles";
+import { LineBackground } from "../LineBackground";
+import theme from "../../theme";
 
-interface Props extends Stats {
+interface Props {
   loading: boolean
+  type?: 'PRIMARY' | 'SECUNDARY',
+  listKeysValue: { key: string, value: number }[]
 }
 
 export function CardStats({
-  loading, goal, assistence, mvp, pp
+  loading, type = 'PRIMARY', listKeysValue
 }: Props) {
   return (
-    <View style={styles.container}>
+    <View style={[
+      styles.container,
+      type === 'SECUNDARY' && styles.secundary,
+    ]}>
+      <LineBackground color={type === 'SECUNDARY' ? theme.colors.gold : theme.colors.primary} />
       {loading ? (
         <Loading />
       ) : (
         <>
-          <View style={styles.content}>
-            <Text style={styles.title}>{ goal }</Text>
-            <Text style={styles.subTitle}>GOLS</Text>
-          </View>
-          <View style={styles.content}>
-            <Text style={styles.title}>{ assistence }</Text>
-            <Text style={styles.subTitle}>ASSIST</Text>
-          </View>
-          <View style={styles.content}>
-            <Text style={styles.title}>{ mvp }</Text>
-            <Text style={styles.subTitle}>MVP</Text>
-          </View>
-          <View style={styles.content}>
-            <Text style={styles.title}>{ pp }</Text>
-            <Text style={styles.subTitle}>PP</Text>
-          </View>
+          {listKeysValue.map(item => (
+            <View style={styles.content} key={item.key}>
+              <Text style={styles.title}>{ item.value }</Text>
+              <Text style={styles.subTitle}>{ item.key }</Text>
+            </View>
+          ))}
         </>
       )}
     </View>

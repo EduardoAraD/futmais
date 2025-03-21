@@ -9,6 +9,7 @@ import { PrizeDown, PrizeDownRouteParams } from '../../screens/PrizeDawn'
 import { SelectedPlayers } from '../../screens/SelectedPlayers'
 import { PlayersToGame } from '../../screens/PlayersToGame'
 import { NotesPlayers } from '../../screens/NotesPlayers'
+import { StatsChampionship, StatsChampionshipRouteParams } from '../../screens/StatsChampionship'
 
 type ChampionshipRoutesType = {
   championship: undefined
@@ -17,6 +18,7 @@ type ChampionshipRoutesType = {
   detailsChampionship: DetailsChampionshipRouteParams
   playersGame: undefined
   notesPlayers: undefined
+  statsChampionship: StatsChampionshipRouteParams
 }
 
 const { Navigator, Screen } = createNativeStackNavigator<ChampionshipRoutesType>()
@@ -33,6 +35,7 @@ export function ChampionshipRoutes() {
       <Screen name="detailsChampionship" component={DetailsChampionship} />
       <Screen name="playersGame" component={PlayersToGame} />
       <Screen name='notesPlayers' component={NotesPlayers} />
+      <Screen name='statsChampionship' component={StatsChampionship} />
     </Navigator>
   )
 }

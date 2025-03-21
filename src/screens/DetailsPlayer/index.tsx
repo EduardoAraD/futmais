@@ -37,8 +37,8 @@ export function DetailsPlayer() {
   const [stats, setStats] = useState<StatsComplete>(emptyStatsComplete)
   const [loading, setLoading] = useState(true)
   
-  const options: string[] = ['Editar Estatísticas', 'Mais Opções']
-  const width = Dimensions.get('screen').width - 190
+  const options: string[] = ['Estatísticas', 'Mais Opções']
+  const width = Dimensions.get('screen').width - 130
   const [option, setOption] = useState(options[0])
 
   const loadDetailsPlayer = useCallback(async () => {
@@ -51,7 +51,7 @@ export function DetailsPlayer() {
       goBack()
     }
     setLoading(false)
-  }, [idPlayer])
+  }, [idPlayer, getDetailsPlayerService])
 
   const handleGoEditPlayer = useCallback(async () => {
     navigate('createPlayer', {
@@ -92,12 +92,13 @@ export function DetailsPlayer() {
         <LineBackground color={theme.colors.gray[600]} />
         <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
           <CardStats
-            goal={stats.goal}
-            assistence={stats.assistence}
-            mvp={stats.mvp}
-            pp={stats.pp}
-            sumStars={stats.sumStars}
             loading={loading}
+            listKeysValue={[
+              { key: 'GOLS', value: stats.goal },
+              { key: 'ASSIST', value: stats.assistence },
+              { key: 'MVP', value: stats.mvp },
+              { key: 'PP', value: stats.pp },
+            ]}
           />
           <OptionLine
             options={options}
@@ -118,6 +119,7 @@ export function DetailsPlayer() {
               avarageStars={stats.sumStars / stats.numberChampionship}
               mvp={stats.mvp}
               pp={stats.pp}
+              games={stats.games}
             />
           }
         </ScrollView>

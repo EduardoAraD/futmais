@@ -10,6 +10,10 @@ export const styles = StyleSheet.create({
     gap: 6,
     borderRadius: 20,
     width: '100%',
+    overflow: 'hidden',
+  },
+  secundary: {
+    backgroundColor: theme.colors.gold,
   },
   content: {
     justifyContent: 'center',

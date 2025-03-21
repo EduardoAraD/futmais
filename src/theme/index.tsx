@@ -16,6 +16,7 @@ export default {
     yellow: '#FFE135',
     green: '#00875F',
     blue: '#4166F5',
+    gold: '#FFA000',
   },
   fonts: {
     rajdhani: {

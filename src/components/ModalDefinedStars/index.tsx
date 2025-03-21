@@ -69,6 +69,10 @@ export function ModalDefinedStars({
             <Text style={styles.value}>{ stats.assistence }</Text>
           </View>
           <View style={styles.statsView}>
+            <Text style={styles.subtitle}>Jogos</Text>
+            <Text style={styles.value}>{ stats.games }</Text>
+          </View>
+          <View style={styles.statsView}>
             <Text style={styles.subtitle}>Melhor do Racha</Text>
             <ButtonSwitch value={mvpPlayer} onChange={handleChangeMvp} />
           </View>

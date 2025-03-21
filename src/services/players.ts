@@ -3,6 +3,8 @@ import { getStatsAS } from "../lib/asyncstorage/stats";
 
 import { Player } from "../model/players";
 import { StatsComplete } from "../model/stats";
+import { getAllChampionshipsServices } from "./championship";
+import { getAllStatsToPlayerIdServices } from "./stats";
 
 export async function getAllPlayersServices() {
   const list = await getListPlayersAS()
@@ -24,12 +26,9 @@ export async function getDetailsPlayerService({ idPlayer }: { idPlayer: string }
     return null
   }
 
-  const stats = await getStatsAS({ idPlayer })
+  const stats = await getAllStatsToPlayerIdServices({ idPlayer })
 
-  return {
-    player,
-    stats: { ...stats, numberChampionship: 0, sumStars: 0 },
-  }
+  return { player, stats }
 }
 
 export async function changeDisablePlayerService({ idPlayer }: { idPlayer: string }) {
