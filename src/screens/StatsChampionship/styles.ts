@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
     borderTopEndRadius: 30,
   },
   scroll: {
-    paddingBottom: 40,
+    paddingBottom: 20,
   },
   titleFlat: {
     paddingTop: 30,

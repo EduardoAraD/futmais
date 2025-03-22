@@ -60,6 +60,13 @@ export function DetailsPlayer() {
     })
   }, [player])
 
+  const handleGoEditStatsPlayer = useCallback(async () => {
+    navigate('editStats', {
+      namePlayer: player.name,
+      idPlayer: player.id
+    })
+  }, [player.name, player.id])
+
   useFocusEffect(
     useCallback(() => {
       loadDetailsPlayer()
@@ -110,6 +117,7 @@ export function DetailsPlayer() {
               idPlayer={player.id}
               disabled={player.disabled}
               onEditPlayer={handleGoEditPlayer}
+              onEditStats={handleGoEditStatsPlayer}
             /> :
             <EditStats
               goal={stats.goal}

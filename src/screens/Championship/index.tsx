@@ -11,8 +11,8 @@ import { TitleFlatlist } from "../../components/TitleFlatlist";
 import { TouchPlusScreen } from "../../components/TouchPlusScreen";
 
 import { getAllChampionshipsServices } from "../../services/championship";
-import { removeAllChampionshipAS } from "../../lib/asyncstorage/championship";
 import theme from "../../theme";
+import { styles } from "./styles";
 
 export function Championship() {
   const { navigate } = useNavigation<ChampionshipRoutesProps>()
@@ -22,7 +22,7 @@ export function Championship() {
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     
-    await removeAllChampionshipAS()
+    await loadChampionship()
     
     setRefreshing(false);
   }, []);
@@ -58,6 +58,7 @@ export function Championship() {
         <TitleFlatlist title="Rachas" value={championship.length} />
         <FlatList
           data={championship}
+          contentContainerStyle={styles.scroll}
           keyExtractor={item => item.id}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -74,7 +75,7 @@ export function Championship() {
         />
 
         <TouchPlusScreen
-          icon="user"
+          icon="championship"
           onPress={handleGoCreateChampionship}
         />
       </Background.Padding>

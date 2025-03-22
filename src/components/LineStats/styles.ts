@@ -8,6 +8,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     height: 40,
   },
+  content: {
+    gap: 6,
+    flexDirection: 'row',
+  },
   text: {
     fontFamily: theme.fonts.rajdhani.bold,
     fontSize: 20,
@@ -20,5 +24,18 @@ export const styles = StyleSheet.create({
     backgroundColor: theme.colors.gray[500],
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  touch: {
+    height: 40,
+    width: 40,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  touchMinus: {
+    backgroundColor: theme.colors.primary,
+  },
+  touchPlus: {
+    backgroundColor: theme.colors.green,
   },
 })

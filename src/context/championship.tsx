@@ -3,7 +3,8 @@ import { createContext, ReactNode, useCallback, useState } from 'react'
 import { ChampionshipComplete } from '../model/chempionship'
 import { GameCurrent } from '../model/gameCurrent'
 import { PlayerInGame, PlayerWithClub } from '../model/players'
-import { saveStatsChampionshipServices } from '../services/championship'
+import { finishChampionship, saveStatsChampionshipServices } from '../services/championship'
+import { StatsWithPlayer } from '../model/stats'
 
 interface ChampionshipProviderProps {
   children: ReactNode
@@ -12,11 +13,11 @@ interface ChampionshipProviderProps {
 type ChampionshipContextProps = {
   championship: ChampionshipComplete | null
   gameCurrent: GameCurrent | null
-  // loading: boolean
   createGameCurrent: (game: GameCurrent) => void
   endGameCurrent: (players: PlayerInGame[]) => Promise<void>
   createChampionship: (championship: ChampionshipComplete) => void
   addPlayerReserve: (newPlayers: PlayerWithClub[]) => void
+  closeChampionship: (stats: StatsWithPlayer[]) => Promise<void>
 }
 
 export const ChampionshipContext = createContext<ChampionshipContextProps>(
@@ -75,16 +76,23 @@ export function ChampionshipProvider({ children }: ChampionshipProviderProps) {
     setChampionship(championshipComplete)
   }, [])
 
+  const closeChampionship = useCallback(async (stats: StatsWithPlayer[]) => {
+    if(championship !== null) {
+      await finishChampionship({ stats, idChampionship: championship.id })
+    }
+    setChampionship(null)
+  }, [championship])
+
   return (
     <ChampionshipContext.Provider
       value={{
-        // loading,
         championship,
         gameCurrent,
         createChampionship,
         addPlayerReserve,
         endGameCurrent,
         createGameCurrent,
+        closeChampionship,
       }}
     >
       {children}

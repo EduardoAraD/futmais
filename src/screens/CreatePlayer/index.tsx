@@ -134,11 +134,13 @@ export function CreatePlayer() {
                 </Pressable>
               </View>
               <Input placeholder="Nome do jogador" value={name} onChangeText={setName} />
-              <StarRating
-                rating={rating}
-                onChange={setRating}
-                starSize={60}
-              />
+              <View style={{ alignItems: 'center' }}>
+                <StarRating
+                  rating={rating}
+                  onChange={setRating}
+                  starSize={50}
+                />
+              </View>
               <Button
                 style={{ marginTop: 40 }}
                 onPress={handleRegister}

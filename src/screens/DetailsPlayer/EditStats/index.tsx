@@ -21,7 +21,7 @@ export function EditStats({
       <LineStats name="Perna de Pau (PP)" value={pp} />
       <LineStats name="Jogos" value={games} />
       <LineStats name="Rachas presentes" value={numberChampionship} />
-      <LineStats name="Nota Média" value="2" star={avarageStars} />
+      <LineStats name="Nota Média" value={0} star={avarageStars} />
     </View>
   )
 }

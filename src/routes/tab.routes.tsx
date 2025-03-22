@@ -1,3 +1,4 @@
+import { Image, Platform, StyleSheet, Text } from 'react-native'
 import {
   createBottomTabNavigator,
   BottomTabNavigationProp,
@@ -9,6 +10,7 @@ import { Game } from '../screens/Game'
 import { PlayerRoutes } from './routesStack/player.routes'
 
 import theme from '../theme'
+import championshipImg from '../assets/racha.png'
 
 export type TabRoutes = {
   playerTab: undefined
@@ -25,12 +27,15 @@ export function TabRoutes() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        headerBackgroundContainerStyle: {
-          backgroundColor: theme.colors.darkPrimary,
-        },
+        tabBarActiveTintColor: theme.colors.primary,
         tabBarStyle: {
           backgroundColor: theme.colors.gray[500],
-          height: 80,
+          // height: Platform.OS === 'android' ? 60 : 90,
+          // position: 'absolute',
+          // marginHorizontal: 20,
+          // paddingTop: 4,
+          // bottom: Platform.OS === 'android' ? 20 : 25,
+          // borderRadius: 99,
         },
       }}
     >
@@ -41,7 +46,9 @@ export function TabRoutes() {
           tabBarIcon: ({ color, size }) => (
             <Feather name="users" size={size} color={color} />
           ),
-          tabBarLabel: 'Jogadores',
+          tabBarLabel: ({ focused }) => (
+            <Text style={focused ? styles.textSelect : styles.text}>Jogadores</Text>
+          ),
         }}
       />
       <Tab.Screen
@@ -49,9 +56,20 @@ export function TabRoutes() {
         component={ChampionshipRoutes}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Feather name="bold" size={size} color={color} />
+            <Image
+              source={championshipImg}
+              alt="racha"
+              style={{
+                height: size,
+                width: size,
+                tintColor: color,
+                objectFit: 'contain',
+              }}
+            />
           ),
-          tabBarLabel: 'Rachas',
+          tabBarLabel: ({ focused }) => (
+            <Text style={focused ? styles.textSelect : styles.text}>Rachas</Text>
+          ),
         }}
       />
       <Tab.Screen
@@ -61,9 +79,24 @@ export function TabRoutes() {
           tabBarIcon: ({ color, size }) => (
             <Feather name="play" size={size} color={color} />
           ),
-          tabBarLabel: 'Jogo',
+          tabBarLabel: ({ focused }) => (
+            <Text style={focused ? styles.textSelect : styles.text}>Jogo</Text>
+          ),
         }}
       />
     </Tab.Navigator>
   )
 }
+
+const styles = StyleSheet.create({
+  text: {
+    color: theme.colors.white,
+    fontFamily: theme.fonts.rajdhani.regular,
+    fontSize: 12,
+  },
+  textSelect: {
+    color: theme.colors.white,
+    fontFamily: theme.fonts.rajdhani.bold,
+    fontSize: 12,
+  },
+})

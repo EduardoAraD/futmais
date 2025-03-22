@@ -13,6 +13,7 @@ import { TouchPlusScreen } from "../../components/TouchPlusScreen";
 
 import { getAllPlayersServices } from "../../services/players";
 import theme from "../../theme";
+import { styles } from "./styles";
 
 export function Players() {
   const { navigate } = useNavigation<PlayerRoutesProps>()
@@ -52,6 +53,7 @@ export function Players() {
         ) : (
           <FlatList
             data={players}
+            contentContainerStyle={styles.scroll}
             keyExtractor={item => item.id}
             renderItem={({ item }) => (
               <CardFlatlist
@@ -66,10 +68,9 @@ export function Players() {
         )}
 
         <TouchPlusScreen
-          icon="user"
+          icon="user-plus"
           onPress={handleGoCreatePlayer}
         />
-        {/* <Tab /> */}
       </Background.Padding>
     </Background>
   )

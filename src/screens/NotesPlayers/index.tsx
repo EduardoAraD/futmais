@@ -14,7 +14,6 @@ import { ModalConfirmad } from '../../components/ModalConfirmad'
 import { TitleFlatlist } from '../../components/TitleFlatlist'
 import { TouchBackWithTitle } from '../../components/TouchBackWithTitle'
 
-import { finishChampionship } from '../../services/championship'
 import theme from '../../theme'
 
 interface PlayerStats {
@@ -24,7 +23,7 @@ interface PlayerStats {
 
 export function NotesPlayers() {
   const { navigate } = useNavigation<ChampionshipRoutesProps>()
-  const { championship } = useChampionship()
+  const { championship, closeChampionship } = useChampionship()
 
   const [listPlayers, setListPlayers] = useState<PlayerStats[]>([])
   const [showModalConfirmad, setShowModalConfirmad] = useState(false)
@@ -54,14 +53,12 @@ export function NotesPlayers() {
   }, [])
 
   const handleFinishChampionship = useCallback(async () => {
-    if(championship !== null) {
-      setLoading(true)
-      const stats: StatsWithPlayer[] = listPlayers.map(item => ({
-        idPlayer: item.player.id, ...item.stats,
-      }))
-      await finishChampionship({ stats, idChampionship: championship.id })
-      setLoading(false)
-    }
+    setLoading(true)
+    const stats: StatsWithPlayer[] = listPlayers.map(item => ({
+      idPlayer: item.player.id, ...item.stats,
+    }))
+    await closeChampionship(stats)
+    setLoading(false)
     navigate('championship')
   }, [championship, listPlayers])
 

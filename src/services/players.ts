@@ -1,9 +1,7 @@
 import { createPlayerAS, getListPlayersAS, getPlayerAS, changeDisabledPlayerAS, saveListPlayersAS } from "../lib/asyncstorage/player";
-import { getStatsAS } from "../lib/asyncstorage/stats";
 
 import { Player } from "../model/players";
 import { StatsComplete } from "../model/stats";
-import { getAllChampionshipsServices } from "./championship";
 import { getAllStatsToPlayerIdServices } from "./stats";
 
 export async function getAllPlayersServices() {

@@ -6,7 +6,7 @@ import { Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 import { TabNavigatorRoutesProps } from "../../routes/tab.routes";
 import { useChampionship } from "../../hook/useChampionship";
 
-import { Player, PlayerInGame } from "../../model/players";
+import { PlayerInGame } from "../../model/players";
 import { Background } from "../../components/Background";
 import { Button } from "../../components/Button";
 import { PlayersStats } from "./PlayerStats";
@@ -61,6 +61,7 @@ export function Game() {
   }, [gameCurrent])
 
   const saveGame = useCallback(() => {
+    setStatusTime('restart')
     endGameCurrent([...playersCLub1, ...playersCLub2])
     navigate('rachaTab')
   }, [playersCLub1, playersCLub2])
