@@ -48,6 +48,7 @@ export async function getAllStatsToPlayerIdServices({ idPlayer }: { idPlayer: st
     numberChampionship: statsChampionship.numberChampionship,
     pp: statsChampionship.pp + statsExtra.pp,
     sumStars: statsChampionship.sumStars + statsExtra.sumStars,
+    ownGoal: statsChampionship.sumStars + statsExtra.ownGoal,
   }
   return stats
 }

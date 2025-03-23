@@ -3,8 +3,8 @@ import { createContext, ReactNode, useCallback, useState } from 'react'
 import { ChampionshipComplete } from '../model/chempionship'
 import { GameCurrent } from '../model/gameCurrent'
 import { PlayerInGame, PlayerWithClub } from '../model/players'
-import { finishChampionship, saveStatsChampionshipServices } from '../services/championship'
 import { StatsWithPlayer } from '../model/stats'
+import { finishChampionship, saveStatsChampionshipServices } from '../services/championship'
 
 interface ChampionshipProviderProps {
   children: ReactNode
@@ -54,11 +54,13 @@ export function ChampionshipProvider({ children }: ChampionshipProviderProps) {
             mvp: 0,
             pp: 0,
             sumStars: 0,
+            ownGoal: item.ownGoal,
             games: 1,
           })
         } else {
           stats[find].assistence += item.assistence,
           stats[find].goal += item.goal
+          stats[find].ownGoal += item.ownGoal
           stats[find].games += 1
         }
       })

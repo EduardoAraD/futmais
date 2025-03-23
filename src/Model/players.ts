@@ -23,6 +23,7 @@ export interface PlayerInGame {
   player: Player
   goal: number
   assistence: number
+  ownGoal: number
 }
 
 export interface PlayerWithStats {

@@ -3,6 +3,10 @@ import theme from "../../theme";
 
 export const styles = StyleSheet.create({
   container: {},
+  scroll: {
+    paddingTop: 20,
+    paddingBottom: 40,
+  },
   content: {
     marginTop: 30,
     gap: 10,

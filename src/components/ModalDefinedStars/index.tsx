@@ -17,6 +17,7 @@ interface ModalDefinedStarsProps {
   onClose(): void
   stats: Stats
   onUpdateData(data: { star: number, mvp: boolean, pp: boolean }): void
+  namePlayer: string
 }
 
 export function ModalDefinedStars({
@@ -24,6 +25,7 @@ export function ModalDefinedStars({
   onClose,
   stats,
   onUpdateData,
+  namePlayer
 }: ModalDefinedStarsProps) {
   const [star, setStar] = useState(0)
   const [mvpPlayer, setMvpPlayer] = useState(false)
@@ -58,7 +60,7 @@ export function ModalDefinedStars({
           <Feather name="x" size={16} color={theme.colors.white} />
         </TouchableOpacity>
         
-        <Text style={styles.title}>Definindo nota do NOME</Text>
+        <Text style={styles.title}>Definindo nota do { namePlayer }</Text>
         <View style={styles.content}>
           <View style={styles.statsView}>
             <Text style={styles.subtitle}>Gols</Text>
@@ -67,6 +69,10 @@ export function ModalDefinedStars({
           <View style={styles.statsView}>
             <Text style={styles.subtitle}>Assistência</Text>
             <Text style={styles.value}>{ stats.assistence }</Text>
+          </View>
+          <View style={styles.statsView}>
+            <Text style={styles.subtitle}>Gols Contra</Text>
+            <Text style={styles.value}>{ stats.ownGoal }</Text>
           </View>
           <View style={styles.statsView}>
             <Text style={styles.subtitle}>Jogos</Text>

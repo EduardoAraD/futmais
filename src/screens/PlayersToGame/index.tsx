@@ -1,8 +1,9 @@
 import { useCallback, useMemo, useState } from "react";
 import { ScrollView, View } from "react-native";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 import { useChampionship } from "../../hook/useChampionship";
+import { TabNavigatorRoutesProps } from "../../routes/tab.routes";
 
 import { GameCurrent } from "../../model/gameCurrent";
 import { Player, PlayerInGame, PlayerWithClub } from "../../model/players";
@@ -13,7 +14,6 @@ import { TouchBackWithTitle } from "../../components/TouchBackWithTitle";
 
 import theme from "../../theme";
 import { styles } from "./styles";
-import { TabNavigatorRoutesProps } from "../../routes/tab.routes";
 
 export function PlayersToGame() {
   const { navigate } = useNavigation<TabNavigatorRoutesProps>()
@@ -50,10 +50,10 @@ export function PlayersToGame() {
 
   const handleCreateGame = useCallback(() => {
     const club1: PlayerInGame[] = playersClub1.map(item => ({
-      player: item, goal: 0, assistence: 0, 
+      player: item, goal: 0, assistence: 0, ownGoal: 0,
     }))
     const club2: PlayerInGame[] = playersClub2.map(item => ({
-      player: item, goal: 0, assistence: 0, 
+      player: item, goal: 0, assistence: 0, ownGoal: 0,
     }))
     const gameCurrent: GameCurrent = {
       club1,

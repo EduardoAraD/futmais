@@ -29,5 +29,12 @@ export const styles = StyleSheet.create({
   },
   touchDisabled: {
     backgroundColor: theme.colors.gray[400]
-  }
+  },
+  scroll: {
+    paddingTop: 30,
+    paddingBottom: 30,
+  },
+  content: {
+    gap: 30,
+  },
 })

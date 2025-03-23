@@ -8,9 +8,6 @@ import {
 
 import { styles } from "./styles";
 import theme from '../../theme'
-// import { IconProps as TablerIconProps } from '@tabler/icons-react-native'
-// import { s } from "./styles";
-// import { colors } from "@/styles/theme";
 
 type OptionButtonType = 'PRIMARY' | 'SECUNDARY'
 type ButtonProps = TouchableOpacityProps & {

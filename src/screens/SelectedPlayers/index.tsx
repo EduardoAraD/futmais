@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from '@expo/vector-icons'
 
@@ -102,10 +102,28 @@ export function SelectedPlayers() {
           </View>
         </View>
         <TitleFlatlist title="Lista de jogadores" value={players.length} />
-        <Button style={{ height: 40, marginBottom: 20, }} onPress={() => setShowModal(true)}>
+        <Button style={{ height: 40 }} onPress={() => setShowModal(true)}>
           <Button.Title>Adicionar Jogador</Button.Title>
         </Button>
-        <FlatList
+
+        <ScrollView
+          contentContainerStyle={styles.scroll}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={{ gap: 10 }}>
+            {players.map(item => (
+              <CardSelectPlayer
+                key={item.id}
+                name={item.name}
+                onPressTrash={() => handleRemovePlayer(item.id)}
+              />
+            ))}
+          </View>
+        </ScrollView>
+
+        {/* <FlatList
+          contentContainerStyle={styles.scroll}
+          showsVerticalScrollIndicator={false}
           data={players}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
@@ -115,7 +133,7 @@ export function SelectedPlayers() {
             />
           )}
           ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-        />
+        /> */}
 
         <Button
           disabled={disabledButtonSort}

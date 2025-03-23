@@ -45,6 +45,7 @@ export function CardNotesPlayer(
         onClose={() => setShowModal(false)}
         stats={stats}
         onUpdateData={handleUpdateData}
+        namePlayer={name}
       />
     </>
   )

@@ -5,6 +5,7 @@ export interface Stats {
   pp: number
   sumStars: number
   games: number
+  ownGoal: number
 }
 
 export interface StatsComplete extends Stats {
@@ -18,6 +19,7 @@ export const emptyStats: Stats = {
   pp: 0,
   sumStars: 0,
   games: 0,
+  ownGoal: 0,
 }
 
 export const emptyStatsComplete: StatsComplete = {

@@ -1,10 +1,9 @@
 import { Text, View } from "react-native";
 
-import { Stats } from "../../model/stats";
+import { LineBackground } from "../LineBackground";
 import { Loading } from "../Loading";
 
 import { styles } from "./styles";
-import { LineBackground } from "../LineBackground";
 import theme from "../../theme";
 
 interface Props {

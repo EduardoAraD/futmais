@@ -1,14 +1,20 @@
-import { ScrollView, Text, View } from "react-native";
-import { Background } from "../../components/Background";
-import { TouchBackWithTitle } from "../../components/TouchBackWithTitle";
-import theme from "../../theme";
-import { LineStats } from "../../components/LineStats";
-import { styles } from "./styles";
-import { Button } from "../../components/Button";
 import { useCallback, useEffect, useState } from "react";
-import { emptyStats, emptyStatsComplete, Stats, StatsComplete } from "../../model/stats";
+import { ScrollView, Text, View } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { getAllStatsInChampionshipToPlayerServices, getAllStatsToPlayerIdServices, getStatsExtraToPlayerServices, saveStatsExtraToPlayerServices } from "../../services/stats";
+
+import { emptyStats, emptyStatsComplete, Stats, StatsComplete } from "../../model/stats";
+import { Background } from "../../components/Background";
+import { Button } from "../../components/Button";
+import { LineStats } from "../../components/LineStats";
+import { TouchBackWithTitle } from "../../components/TouchBackWithTitle";
+
+import {
+  getAllStatsInChampionshipToPlayerServices,
+  getStatsExtraToPlayerServices,
+  saveStatsExtraToPlayerServices
+} from "../../services/stats";
+import theme from "../../theme";
+import { styles } from "./styles";
 
 export interface EditStatsRouteParams {
   idPlayer: string

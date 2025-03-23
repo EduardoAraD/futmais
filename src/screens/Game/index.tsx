@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { TouchableOpacity, View } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 
@@ -9,6 +9,7 @@ import { useChampionship } from "../../hook/useChampionship";
 import { PlayerInGame } from "../../model/players";
 import { Background } from "../../components/Background";
 import { Button } from "../../components/Button";
+import { OwnGoal } from "../../components/OwnGoal";
 import { PlayersStats } from "./PlayerStats";
 import { Time, StatusTime } from "../../components/Time";
 import { Score } from "../../components/Score";
@@ -19,6 +20,7 @@ import { styles } from "./styles";
 export function Game() {
   const { navigate } = useNavigation<TabNavigatorRoutesProps>()
   const { gameCurrent, endGameCurrent } = useChampionship()
+
   const [statusTime, setStatusTime] = useState<StatusTime>('to start')
   const [playersCLub1, setPlayersClub1] = useState<PlayerInGame[]>([])
   const [playersCLub2, setPlayersClub2] = useState<PlayerInGame[]>([])
@@ -55,8 +57,8 @@ export function Game() {
 
   const loadPlayers = useCallback(() => {
     if(gameCurrent !== null) {
-      setPlayersClub1(gameCurrent.club1.map(item => ({...item, goal: 0, assistence: 0 })))
-      setPlayersClub2(gameCurrent.club2.map(item => ({...item, goal: 0, assistence: 0 })))
+      setPlayersClub1(gameCurrent.club1.map(item => ({...item, goal: 0, assistence: 0, ownGoal: 0 })))
+      setPlayersClub2(gameCurrent.club2.map(item => ({...item, goal: 0, assistence: 0, ownGoal: 0 })))
     }
   }, [gameCurrent])
 
@@ -70,49 +72,85 @@ export function Game() {
     loadPlayers()
   }, [loadPlayers])
 
+  const handleChangeOwnGoalClub1 = useCallback((idPlayer: string, type: 'add' | 'remove') => {
+    const value = type === 'add' ? 1 : -1
+    setPlayersClub1(state => state.map(item => item.player.id === idPlayer ?
+      ({ ...item, ownGoal: item.ownGoal + value }) : item
+    ))
+  }, [])
+  const handleChangeOwnGoalClub2 = useCallback((idPlayer: string, type: 'add' | 'remove') => {
+    const value = type === 'add' ? 1 : -1
+    setPlayersClub2(state => state.map(item => item.player.id === idPlayer ?
+      ({ ...item, ownGoal: item.ownGoal + value }) : item
+    ))
+  }, [])
+
   const goalClub1 = useMemo(() => {
+    const ownGoals = playersCLub2.reduce(
+      (accumulator, player) => accumulator + player.ownGoal, 0,
+    )
     return playersCLub1.reduce(
-      (accumulator, player) => accumulator + player.goal, 0,
+      (accumulator, player) => accumulator + player.goal, ownGoals,
     );
-  }, [playersCLub1])
+  }, [playersCLub1, playersCLub2])
   const goalClub2 = useMemo(() => {
+    const ownGoals = playersCLub1.reduce(
+      (accumulator, player) => accumulator + player.ownGoal, 0,
+    )
     return playersCLub2.reduce(
-      (accumulator, player) => accumulator + player.goal, 0,
+      (accumulator, player) => accumulator + player.goal, ownGoals,
     );
-  }, [playersCLub2])
+  }, [playersCLub1, playersCLub2])
 
   return (
     <Background color={theme.colors.gray[700]}>
       <Background.Padding>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <Score goalClub1={goalClub1} goalClub2={goalClub2} />
-          <Time status={statusTime} />
-          <View style={styles.contentStats}>
-            <View style={styles.stats}>
-              {playersCLub1.map(item => (
-                <PlayersStats
-                  key={item.player.id}
-                  idPlayer={item.player.id}
-                  name={item.player.name}
-                  goal={item.goal}
-                  assistence={item.assistence}
-                  onChangeStats={handleChangeStatsClub1}
-                />
-              ))}
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.scroll}
+          >
+            <View style={styles.content}>
+              <Time status={statusTime} />
+              <View style={styles.contentStats}>
+                <View style={styles.stats}>
+                  {playersCLub1.map(item => (
+                    <PlayersStats
+                      key={item.player.id}
+                      idPlayer={item.player.id}
+                      name={item.player.name}
+                      goal={item.goal}
+                      assistence={item.assistence}
+                      onChangeStats={handleChangeStatsClub1}
+                    />
+                  ))}
+                  <OwnGoal
+                    players={playersCLub1}
+                    onPressAddOwnGoal={(idPlayer) => handleChangeOwnGoalClub1(idPlayer, 'add')}
+                    onPressRemoveOwnGoal={(idPlayer) => handleChangeOwnGoalClub1(idPlayer, 'remove')}
+                  />
+                </View>
+                <View style={styles.stats}>
+                  {playersCLub2.map(item => (
+                    <PlayersStats
+                      key={item.player.id}
+                      idPlayer={item.player.id}
+                      name={item.player.name}
+                      goal={item.goal}
+                      assistence={item.assistence}
+                      onChangeStats={handleChangeStatsClub2}
+                    />
+                  ))}
+                  <OwnGoal
+                    players={playersCLub2}
+                    onPressAddOwnGoal={(idPlayer) => handleChangeOwnGoalClub2(idPlayer, 'add')}
+                    onPressRemoveOwnGoal={(idPlayer) => handleChangeOwnGoalClub2(idPlayer, 'remove')}
+                  />
+                </View>
+              </View>
             </View>
-            <View style={styles.stats}>
-              {playersCLub2.map(item => (
-                <PlayersStats
-                  key={item.player.id}
-                  idPlayer={item.player.id}
-                  name={item.player.name}
-                  goal={item.goal}
-                  assistence={item.assistence}
-                  onChangeStats={handleChangeStatsClub2}
-                />
-              ))}
-            </View>
-          </View>
+          </ScrollView>
 
           <View style={styles.container}>
             <View style={styles.action}>
