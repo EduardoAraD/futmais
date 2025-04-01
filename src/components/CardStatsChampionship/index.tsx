@@ -16,10 +16,11 @@ interface Props {
   goal: number
   assistence: number
   games: number
+  ownGoal: number
 }
 
 export function CardStatsChampionship({
-  name, position, stars, games, goal, assistence
+  name, position, stars, games, goal, assistence, ownGoal
 }: Props) {
   const [hasOpenCard, setHasOpenCard] = useState(false)
 
@@ -50,6 +51,11 @@ export function CardStatsChampionship({
           <View style={styles.itemStats}>
             <Image source={shoots} style={styles.image} />
             <Text style={styles.textStats}>{ assistence }</Text>
+          </View>
+          <View style={styles.itemStats}>
+          <Text style={styles.textStats}>C</Text>
+            <Image source={soccerBall} style={styles.image} />
+            <Text style={styles.textStats}>{ goal }</Text>
           </View>
           <View style={styles.itemStats}>
             <Text style={styles.textStats}>J</Text>

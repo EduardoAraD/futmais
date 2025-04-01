@@ -3,22 +3,25 @@ import theme from "../../../theme";
 
 export const styles = StyleSheet.create({
   container: {
-    height: 28,
+    // height: 28,
     backgroundColor: theme.colors.gray[500],
     paddingHorizontal: 5,
-    flexDirection: 'row',
+    // flexDirection: 'row',
     alignItems: 'center',
+    borderRadius: 6,
   },
   name: {
-    fontFamily: theme.fonts.rajdhani.semibold,
-    fontSize: 12,
+    fontFamily: theme.fonts.oxanium.bold,
+    fontSize: 14,
     color: theme.colors.white,
-    flex: 1,
+    paddingTop: 4,
+    paddingBottom: 4,
   },
   content: {
     flexDirection: 'row',
     gap: 2,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   value: {
     fontFamily: theme.fonts.rajdhani.bold,
@@ -26,7 +29,8 @@ export const styles = StyleSheet.create({
     color: theme.colors.white,
   },
   action: {
-    gap: 2
+    gap: 2,
+    flexDirection: 'row',
   },
   image: {
     height: 12,
@@ -34,7 +38,7 @@ export const styles = StyleSheet.create({
     tintColor: theme.colors.white,
   },
   touchPlus: {
-    height: 10,
+    height: 20,
     width: 20,
     backgroundColor: theme.colors.green,
     justifyContent: 'center',
@@ -42,7 +46,7 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
   },
   touchMinus: {
-    height: 10,
+    height: 20,
     width: 20,
     backgroundColor: theme.colors.primary,
     justifyContent: 'center',

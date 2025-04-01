@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { FlatList, RefreshControl, View } from "react-native";
+import { RefreshControl, ScrollView, View } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import { ChampionshipRoutesProps } from "../../routes/routesStack/championship.routes";
@@ -18,14 +18,6 @@ export function Championship() {
   const { navigate } = useNavigation<ChampionshipRoutesProps>()
   const [championship, setChampionship] = useState<ChampionshipResume[]>([])
   const [refreshing, setRefreshing] = useState(false);
-
-  const onRefresh = useCallback(async () => {
-    setRefreshing(true);
-    
-    await loadChampionship()
-    
-    setRefreshing(false);
-  }, []);
 
   const handleGoCreateChampionship = useCallback(() => {
     navigate('selectedPlayers')
@@ -47,32 +39,43 @@ export function Championship() {
     setChampionship(championships)
   }, [])
 
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    
+    await loadChampionship()
+    
+    setRefreshing(false);
+  }, [loadChampionship]);
+
   useFocusEffect(useCallback(() => {
     loadChampionship()
-  }, []))
+  }, [loadChampionship]))
 
   return (
     <Background color={theme.colors.gray[700]}>
       <Background.Padding>
         <Title title="Gerenciamento de Rachas" />
         <TitleFlatlist title="Rachas" value={championship.length} />
-        <FlatList
-          data={championship}
+
+        <ScrollView
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scroll}
-          keyExtractor={item => item.id}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
-          renderItem={({ item }) => (
-            <CardFlatlist
-              name={`Racha - ${new Date(item.date).toLocaleDateString()}`}
-              status={item.status}
-              onPress={() => handleGoProxScreen({ idChampionship: item.id, status: item.status })}
-            />
-          )}
-          ItemSeparatorComponent={() => <View style={{ height: 6 }} />}
-          showsVerticalScrollIndicator={false}
-        />
+        >
+          <View style={styles.contentScroll}>
+            {championship.map(item => (
+              <CardFlatlist
+                key={item.id}
+                name={`Racha - ${new Date(item.date).toLocaleDateString()}`}
+                status={item.status}
+                onPress={() => handleGoProxScreen({ idChampionship: item.id, status: item.status })}
+              />
+            ))}
+          </View>
+        </ScrollView>
 
         <TouchPlusScreen
           icon="championship"

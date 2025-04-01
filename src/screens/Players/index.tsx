@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { FlatList, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import { PlayerRoutesProps } from "../../routes/routesStack/player.routes";
@@ -51,20 +51,21 @@ export function Players() {
         {loading ? (
           <Loading />
         ) : (
-          <FlatList
-            data={players}
+          <ScrollView
             contentContainerStyle={styles.scroll}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => (
-              <CardFlatlist
-                name={item.name}
-                onPress={() => handleGoDetailsPlayer(item.id)}
-                status='current'
-              />
-            )}
-            ItemSeparatorComponent={() => <View style={{ height: 6 }} />}
             showsVerticalScrollIndicator={false}
-          />
+          >
+            <View style={{ gap: 6 }}>
+              {players.map(item => (
+                 <CardFlatlist
+                  key={item.id}
+                  name={item.name}
+                  onPress={() => handleGoDetailsPlayer(item.id)}
+                  status='current'
+                />
+              ))}
+            </View>
+          </ScrollView>
         )}
 
         <TouchPlusScreen

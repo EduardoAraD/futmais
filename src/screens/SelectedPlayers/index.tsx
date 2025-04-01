@@ -121,20 +121,6 @@ export function SelectedPlayers() {
           </View>
         </ScrollView>
 
-        {/* <FlatList
-          contentContainerStyle={styles.scroll}
-          showsVerticalScrollIndicator={false}
-          data={players}
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => (
-            <CardSelectPlayer
-              name={item.name}
-              onPressTrash={() => handleRemovePlayer(item.id)}
-            />
-          )}
-          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-        /> */}
-
         <Button
           disabled={disabledButtonSort}
           style={[{ height: 48 }, disabledButtonSort && { backgroundColor: theme.colors.gray[500]}]} 

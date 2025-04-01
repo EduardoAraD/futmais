@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
-import { FlatList, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 
 import { Player } from '../../model/players'
@@ -44,21 +44,22 @@ export function ModalOwnGoal({
         </TouchableOpacity>
 
         <Text style={styles.title}>Escolha o jogador do gol contra</Text>
-
-        <FlatList
-          data={players}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <CardSelectPlayerStar
-              name={item.name}
-              stars={item.stars}
-              selected={item.id === selected}
-              onPress={() => setSelected(item.id)}
-            />
-          )}
-          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+        <ScrollView
           contentContainerStyle={styles.scroll}
-        />
+        >
+          <View style={styles.contentScroll}>
+            {players.map(item => (
+              <CardSelectPlayerStar
+                key={item.id}
+                name={item.name}
+                stars={item.stars}
+                selected={item.id === selected}
+                onPress={() => setSelected(item.id)}
+              />
+            ))}
+          </View>
+        </ScrollView>
+
         <Button onPress={handleConfirmed} disabled={disabled} style={{ height: 48 }}>
           <Button.Title>Adicionar Jogador</Button.Title>
         </Button>

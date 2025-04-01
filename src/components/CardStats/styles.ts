@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
     gap: 6,
     borderRadius: 20,
     width: '100%',
+    flex: 1,
     overflow: 'hidden',
   },
   secundary: {

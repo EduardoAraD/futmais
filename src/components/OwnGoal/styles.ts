@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     gap: 4,
     overflow: 'hidden',
     borderRadius: 10,
+    marginTop: 10,
   },
   content: {
     flexDirection: 'row',

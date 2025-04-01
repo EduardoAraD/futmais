@@ -11,6 +11,7 @@ interface Props extends ViewProps {
 }
 
 export function Stars({ note, hasAllStars = true, style, ...rest }: Props) {
+  // const length = Math.ceil(note) < 0 ? 1 : Math.ceil(note)
   const arrayNumberStar = hasAllStars ?
     [0, 1, 2, 3, 4] :
     Array.from({ length: Math.ceil(note) })

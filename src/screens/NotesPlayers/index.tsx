@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { FlatList, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 import { ChampionshipRoutesProps } from '../../routes/routesStack/championship.routes'
@@ -95,22 +95,25 @@ export function NotesPlayers() {
           title="Lista de jogadores presentes"
           value={listPlayers.length}
         />
-        <FlatList
-          data={listPlayers}
+
+        <ScrollView
           showsVerticalScrollIndicator={false}
-          keyExtractor={(item) => item.player.id}
-          contentContainerStyle={{ paddingBottom: 50 }}
-          renderItem={({ item }) => (
-            <CardNotesPlayer
-              name={item.player.name}
-              stats={item.stats}
-              onUpdateStatsPlayer={(data) => handleUpdateStatsPlayer(
-                {...data, idPlayer: item.player.id }
-              )}
-            />
-          )}
-          ItemSeparatorComponent={() => <View style={{ height: 6 }} />}
-        />
+          contentContainerStyle={{ paddingBottom: 50, paddingTop: 20 }}
+        >
+          <View style={{ gap: 6 }}>
+            {listPlayers.map(item => (
+              <CardNotesPlayer
+                key={item.player.id}
+                name={item.player.name}
+                stats={item.stats}
+                onUpdateStatsPlayer={(data) => handleUpdateStatsPlayer(
+                  {...data, idPlayer: item.player.id }
+                )}
+              />
+            ))}
+          </View>
+        </ScrollView>
+
         <Button
           onPress={() => setShowModalConfirmad(true)}
           disabled={disabled}

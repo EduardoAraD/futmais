@@ -12,7 +12,7 @@ interface TimeProps {
 }
 
 export function Time({ status }: TimeProps) {
-  const duration = 60 * 1;
+  const duration = 60 * 7;
   const [timeStarted, setTimeStarted] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
   const [timeExtra, setTimeExtra] = useState(0)

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { FlatList, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 
 import { ChampionshipRoutesProps } from "../../routes/routesStack/championship.routes";
@@ -53,19 +53,22 @@ export function PrizeDown() {
     <Background color={theme.colors.gray[700]}>
       <Background.Padding>
         <TouchBackWithTitle title="Sorteio de Times" />
-        <FlatList
+
+        <ScrollView
           contentContainerStyle={styles.flat}
           showsVerticalScrollIndicator={false}
-          data={clubs}
-          keyExtractor={(item, index) => `${item.players.length}-${index}`}
-          renderItem={({ item, index }) => (
-            <CardClub
-              numberClub={index + 1}
-              players={item.players}
-            />
-          )}
-          ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
-        />
+        >
+          <View style={{ gap: 20 }}>
+            {clubs.map((item, index) => (
+              <CardClub
+                key={`${item.players.length}-${index}`}
+                numberClub={index + 1}
+                players={item.players}
+              />
+            ))}
+          </View>
+        </ScrollView>
+
         <View style={styles.options}>
           <Button style={{ flex: 2, height: 48 }} type="SECUNDARY" onPress={sortPlayers}>
             <Button.Title type="SECUNDARY">Resortear</Button.Title>

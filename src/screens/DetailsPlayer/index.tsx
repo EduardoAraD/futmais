@@ -63,7 +63,8 @@ export function DetailsPlayer() {
   const handleGoEditStatsPlayer = useCallback(async () => {
     navigate('editStats', {
       namePlayer: player.name,
-      idPlayer: player.id
+      idPlayer: player.id,
+      stars: player.stars,
     })
   }, [player.name, player.id])
 
@@ -76,6 +77,14 @@ export function DetailsPlayer() {
   const backgroundColor = useMemo(() => {
     return player.disabled ? theme.colors.gray[700] : theme.colors.primary
   }, [player.disabled])
+
+  const avarageStars = useMemo(() => {
+    if(stats.numberChampionship === 0) {
+      return player.stars
+    }
+
+    return stats.sumStars / stats.numberChampionship
+  }, [stats.sumStars, stats.numberChampionship, player.stars])
 
   return (
     <Background color={backgroundColor}>
@@ -124,10 +133,11 @@ export function DetailsPlayer() {
               assistence={stats.assistence}
               numberChampionship={stats.numberChampionship}
               sumStars={stats.sumStars}
-              avarageStars={stats.sumStars / stats.numberChampionship}
+              avarageStars={avarageStars}
               mvp={stats.mvp}
               pp={stats.pp}
               games={stats.games}
+              ownGoal={stats.ownGoal}
             />
           }
         </ScrollView>

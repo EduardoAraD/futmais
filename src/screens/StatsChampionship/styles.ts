@@ -38,4 +38,26 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     color: theme.colors.white,
   },
+  viewCard: {
+    padding: 30,
+    paddingTop: 10,
+    paddingBottom: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    gap: 12,
+  },
+  touchReverse: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.colors.darkPrimary,
+  },
+  icon: {
+    height: 30,
+    width: 30,
+  },
 })

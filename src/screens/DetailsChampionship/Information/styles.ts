@@ -9,4 +9,7 @@ export const styles = StyleSheet.create({
     paddingTop: 30,
     paddingBottom: 30,
   },
+  contentScroll: {
+    gap: 15
+  }
 })

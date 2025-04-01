@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 
@@ -19,6 +19,7 @@ import { styles } from "./styles";
 export interface EditStatsRouteParams {
   idPlayer: string
   namePlayer: string
+  stars: number
 }
 
 type ParamList = {
@@ -27,7 +28,7 @@ type ParamList = {
 
 export function EditStatsPlayer() {
   const { goBack } = useNavigation()
-  const { idPlayer, namePlayer } = useRoute<RouteProp<ParamList, 'Details'>>().params
+  const { idPlayer, namePlayer, stars } = useRoute<RouteProp<ParamList, 'Details'>>().params
 
   const [stats, setStats] = useState<StatsComplete>(emptyStatsComplete)
   const [statsExtra, setStatsExtra] = useState<Stats>(emptyStats)
@@ -67,6 +68,14 @@ export function EditStatsPlayer() {
     loadDetailsPlayer()
   }, [loadDetailsPlayer])
 
+  const avarageStars = useMemo(() => {
+    if(stats.numberChampionship === 0) {
+      return stars
+    }
+
+    return stats.sumStars / stats.numberChampionship
+  }, [stats.sumStars, stats.numberChampionship, stars])
+
   return (
     <Background color={theme.colors.gray[700]}>
       <Background.Padding>
@@ -81,7 +90,7 @@ export function EditStatsPlayer() {
             <LineStats name="Assistências" value={stats.assistence + assistences} />
             <LineStats name="Melhor do Racha (MVP)" value={stats.mvp} />
             <LineStats name="Perna de Pau (PP)" value={stats.pp} />
-            <LineStats name="Nota Média" value={0} star={stats.sumStars / stats.numberChampionship} />
+            <LineStats name="Nota Média" value={0} star={avarageStars} />
           </View>
           <Text style={styles.title}>Editar valores extras</Text>
           <View style={styles.content}>

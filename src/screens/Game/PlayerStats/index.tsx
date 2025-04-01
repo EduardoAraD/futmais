@@ -40,21 +40,22 @@ export function PlayersStats({ idPlayer, name, goal, assistence, onChangeStats }
         <Image source={soccerBall} style={styles.image} />
         <Text style={styles.value}>{ goal }</Text>
         <View style={styles.action}>
-          <TouchableOpacity activeOpacity={0.8} style={styles.touchPlus} onPress={handlePlusGoal}>
-            <Feather name="plus" size={10} color={theme.colors.white} />
-          </TouchableOpacity>
           <TouchableOpacity activeOpacity={0.8} style={styles.touchMinus} onPress={handleMinusGoal}>
             <Feather name="minus" size={10} color={theme.colors.white}  />
           </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.8} style={styles.touchPlus} onPress={handlePlusGoal}>
+            <Feather name="plus" size={10} color={theme.colors.white} />
+          </TouchableOpacity>
         </View>
+        <View style={{ width: 7 }} />
         <Image source={shoots} style={styles.image} />
         <Text style={styles.value}>{ assistence }</Text>
         <View style={styles.action}>
-          <TouchableOpacity activeOpacity={0.8} style={styles.touchPlus} onPress={handlePlusAssist}>
-            <Feather name="plus" size={10} color={theme.colors.white} />
-          </TouchableOpacity>
           <TouchableOpacity activeOpacity={0.8} style={styles.touchMinus} onPress={handleMinusAssist}>
             <Feather name="minus" size={10} color={theme.colors.white}  />
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.8} style={styles.touchPlus} onPress={handlePlusAssist}>
+            <Feather name="plus" size={10} color={theme.colors.white} />
           </TouchableOpacity>
         </View>
       </View>

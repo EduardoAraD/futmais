@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { FlatList, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { ChampionshipRoutesProps } from "../../../routes/routesStack/championship.routes";
@@ -26,19 +26,20 @@ export function InformationDetailsChampionship({ clubs }: Props) {
 
   return (
     <View style={styles.container}>
-      <FlatList
+      <ScrollView
         contentContainerStyle={styles.flat}
         showsVerticalScrollIndicator={false}
-        data={clubs}
-        keyExtractor={(item, index) => `${item.players.length}-${index}`}
-        renderItem={({ item, index }) => (
-          <CardClub
-            numberClub={index + 1}
-            players={item.players}
-          />
-        )}
-        ItemSeparatorComponent={() => <View style={{ height: 15 }} />}
-      />
+      >
+        <View style={styles.contentScroll}>
+          {clubs.map((item, index) => (
+            <CardClub
+              key={`${item.players.length}-${index}`}
+              numberClub={index + 1}
+              players={item.players}
+            />
+          ))}
+        </View>
+      </ScrollView>
       <Button style={{ height: 48 }} onPress={handleGoPlayersToGame}>
         <Button.Title>Iniciar Jogo</Button.Title>
       </Button>

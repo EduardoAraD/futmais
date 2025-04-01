@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Feather } from '@expo/vector-icons'
 
 import { Player } from "../../model/players";
@@ -51,20 +51,21 @@ export function ModalAddPlayer({ players, visible, onClose, onConfirmPlayers }: 
           <Feather name="x" size={16} color={theme.colors.white} />
         </TouchableOpacity>
         <Text style={styles.title}>Adicionar jogadores</Text>
-        <FlatList
-          data={list}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <CardSelectPlayerStar
-              name={item.name}
-              stars={item.stars}
-              selected={item.selected}
-              onPress={() => handleSelectedPlayer(item.id)}
-            />
-          )}
-          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+        <ScrollView
           contentContainerStyle={styles.flat}
-        />
+        >
+          <View style={styles.contentScroll}>
+            {list.map(item => (
+              <CardSelectPlayerStar
+                key={item.id}
+                name={item.name}
+                stars={item.stars}
+                selected={item.selected}
+                onPress={() => handleSelectedPlayer(item.id)}
+              />
+            ))}
+          </View>
+        </ScrollView>
         <Button onPress={handleConfirmPlayers} style={{ height: 48 }}>
           <Button.Title>Adicionar Jogador</Button.Title>
         </Button>
